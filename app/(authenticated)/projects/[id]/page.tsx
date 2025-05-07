@@ -1,10 +1,7 @@
 import { notFound } from "next/navigation"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { PageBreadcrumb } from "@/components/page-breadcrumb"
 
-// This would typically come from your database
 const getProjectData = (id: string) => {
-  // Mock project data - in a real app, this would fetch from an API or database
   const projects = [
     {
       id: "3a7acb42-e91b-4f66-b89e-38c1d86bbf32",
@@ -56,30 +53,15 @@ export default async function ProjectPage(props: ProjectPageProps) {
   return (
     <>
       <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-        <PageBreadcrumb projectInfo={{ id: project.id, name: project.name }} />
+        <PageBreadcrumb breadcrumbData={{ id: project.id, name: project.name }} />
       </header>
       
       <div className="container mx-auto p-6">
         <div className="flex flex-col gap-8">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">{project.name}</h1>
-            <p className="text-muted-foreground mt-2">Created on {formattedDate}</p>
+            <h1 className="text-2xl font-bold tracking-tight">{project.name}</h1>
+            <p className="text-sm text-muted-foreground mt-2">Created on {formattedDate}</p>
           </div>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle>Project Details</CardTitle>
-              <CardDescription>Information about this project</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>{project.description}</p>
-              <div className="mt-4">
-                <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold">
-                  {project.status === 'active' ? 'Active' : 'Inactive'}
-                </span>
-              </div>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </>

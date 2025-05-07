@@ -1,6 +1,6 @@
-import { ChartAreaInteractive } from "@/components/chart-area-interactive";
-import { DataTable } from "@/components/data-table";
-import { SectionCards } from "@/components/section-cards";
+import { ChartAreaInteractive } from "@/app/(authenticated)/dashboard/_components/chart-area-interactive";
+import { DataTable } from "@/app/(authenticated)/dashboard/_components/data-table";
+import { SectionCards } from "@/app/(authenticated)/dashboard/_components/section-cards";
 import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { Suspense } from "react";
 

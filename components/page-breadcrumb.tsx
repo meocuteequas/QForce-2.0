@@ -11,6 +11,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { ROUTES, ROUTE_PATTERNS } from "@/lib/constants/routes";
 
 interface BreadcrumbConfig {
   label: string;
@@ -18,39 +19,49 @@ interface BreadcrumbConfig {
   isCurrentPage?: boolean;
 }
 
-interface ProjectInfo {
+interface EntityInfo {
   id: string;
   name: string;
 }
 
 interface PageBreadcrumbProps {
-  projectInfo?: ProjectInfo;
+  breadcrumbData?: EntityInfo;
 }
 
-export function PageBreadcrumb({ projectInfo }: PageBreadcrumbProps) {
+export function PageBreadcrumb({ breadcrumbData }: PageBreadcrumbProps) {
   const pathname = usePathname();
   const params = useParams();
   
-  // Generate breadcrumbs based on current path
   const getBreadcrumbs = (): BreadcrumbConfig[] => {
     // Always show Home as first breadcrumb
     const breadcrumbs: BreadcrumbConfig[] = [
-      { label: "Home", href: "/" }
+      { label: "Home", href: ROUTES.HOME }
     ];
 
     // Check if we're on dashboard
-    if (pathname === "/(authenticated)/dashboard" || pathname === "/dashboard") {
+    if (pathname === "/(authenticated)/dashboard" || pathname === ROUTES.DASHBOARD) {
       breadcrumbs.push({ label: "Dashboard", isCurrentPage: true });
       return breadcrumbs;
     }
 
     // Check if we're on a project page
-    if (pathname.includes("/project/") && params.id) {
-      breadcrumbs.push({ label: "Projects", href: "/projects" });
+    if (pathname.includes(ROUTE_PATTERNS.PROJECT_PAGE) && params.id) {
+      breadcrumbs.push({ label: "Projects", href: ROUTES.PROJECTS });
       
-      // If projectInfo is provided, use the project name
-      const projectLabel = projectInfo?.name || `Project ${params.id}`;
+      // If breadcrumbData is provided, use its name
+      const projectLabel = breadcrumbData?.name || `Project ${params.id}`;
       breadcrumbs.push({ label: projectLabel, isCurrentPage: true });
+      
+      return breadcrumbs;
+    }
+
+    // Check if we're on a team page
+    if (pathname.includes(ROUTE_PATTERNS.TEAM_PAGE) && params.id) {
+      breadcrumbs.push({ label: "Teams", href: ROUTES.TEAMS });
+      
+      // If breadcrumbData is provided, use its name
+      const teamLabel = breadcrumbData?.name || `Team ${params.id}`;
+      breadcrumbs.push({ label: teamLabel, isCurrentPage: true });
       
       return breadcrumbs;
     }
