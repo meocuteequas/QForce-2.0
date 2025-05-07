@@ -2,180 +2,116 @@
 
 import * as React from "react"
 import {
-  IconCamera,
-  IconChartBar,
-  IconDashboard,
-  IconDatabase,
-  IconFileAi,
-  IconFileDescription,
-  IconFileWord,
-  IconFolder,
-  IconHelp,
-  IconInnerShadowTop,
-  IconListDetails,
-  IconReport,
-  IconSearch,
-  IconSettings,
-  IconUsers,
-} from "@tabler/icons-react"
+  AudioWaveform,
+  Command,
+  GalleryVerticalEnd,
+  LayoutDashboard,
+  Briefcase,
+  Inbox,
+  FileText,
+  FolderKanban,
+} from "lucide-react"
+import { User } from "@supabase/supabase-js"
 
-import { NavDocuments } from "@/components/nav-documents"
 import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
+import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarRail,
 } from "@/components/ui/sidebar"
 
+// This is sample data.
 const data = {
   user: {
     name: "shadcn",
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
+  teams: [
+    {
+      name: "QForce Inc.",
+      logo: GalleryVerticalEnd,
+      plan: "Startup",
+    },
+    {
+      name: "Acme Corp.",
+      logo: AudioWaveform,
+      plan: "Startup",
+    },
+    {
+      name: "Evil Corp.",
+      logo: Command,
+      plan: "Free",
+    },
+  ],
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
-      icon: IconDashboard,
+      url: "/dashboard",
+      icon: LayoutDashboard,
     },
     {
-      title: "Lifecycle",
-      url: "#",
-      icon: IconListDetails,
+      title: "My Work",
+      url: "/my-work",
+      icon: Briefcase,
     },
     {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
+      title: "My Inbox",
+      url: "/inbox",
+      icon: Inbox,
     },
     {
-      title: "Projects",
-      url: "#",
-      icon: IconFolder,
+      title: "My Documents",
+      url: "/documents",
+      icon: FileText,
     },
     {
-      title: "Team",
-      url: "#",
-      icon: IconUsers,
-    },
-  ],
-  navClouds: [
-    {
-      title: "Capture",
-      icon: IconCamera,
+      title: "All Projects",
+      url: "/projects",
+      icon: FolderKanban,
       isActive: true,
-      url: "#",
       items: [
         {
-          title: "Active Proposals",
-          url: "#",
+          title: "Design Engineering",
+          url: "/project/3a7acb42-e91b-4f66-b89e-38c1d86bbf32",
+          id: "3a7acb42-e91b-4f66-b89e-38c1d86bbf32",
         },
         {
-          title: "Archived",
-          url: "#",
+          title: "Sales & Marketing",
+          url: "/project/5f9c1b2d-cc7e-48a4-b9f5-12345a6789bc",
+          id: "5f9c1b2d-cc7e-48a4-b9f5-12345a6789bc",
+        },
+        {
+          title: "Travel",
+          url: "/project/8e7d6c5b-4a3f-2e1d-0c9b-876543210fed",
+          id: "8e7d6c5b-4a3f-2e1d-0c9b-876543210fed",
         },
       ],
-    },
-    {
-      title: "Proposal",
-      icon: IconFileDescription,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Prompts",
-      icon: IconFileAi,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: IconSettings,
-    },
-    {
-      title: "Get Help",
-      url: "#",
-      icon: IconHelp,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: IconSearch,
-    },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: IconDatabase,
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: IconReport,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: IconFileWord,
     },
   ],
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  authUser: User
+}
+
+export function AppSidebar({ authUser, ...props }: AppSidebarProps) {
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
+    <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
-            >
-              <a href="#">
-                <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={authUser} />
       </SidebarFooter>
+      <SidebarRail />
     </Sidebar>
   )
 }

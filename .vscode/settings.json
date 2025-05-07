@@ -1,0 +1,44 @@
+{
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "deno.enablePaths": [
+    "supabase/functions"
+  ],
+  "deno.lint": true,
+  "deno.unstable": [
+    "bare-node-builtins",
+    "byonm",
+    "sloppy-imports",
+    "unsafe-proto",
+    "webgpu",
+    "broadcast-channel",
+    "worker-options",
+    "cron",
+    "kv",
+    "ffi",
+    "fs",
+    "http",
+    "net"
+  ],
+  "github.copilot.chat.codeGeneration.instructions": [
+    {
+      "file": "./.github/error-handling-and-validation.md"
+    },
+    {
+      "file": "./.github/general-code-quality-and-style.md"
+    },
+    {
+      "file": "./.github/next-js-15-async-request-api-rules.md"
+    },
+    {
+      "file": "./.github/next-js-15-component-architecture-rules.md"
+    },
+    {
+      "file": "./.github/private-vs-shared-components.md"
+    },
+    {
+      "file": "./.github/comment-usage.md"
+    }
+  ]
+}
