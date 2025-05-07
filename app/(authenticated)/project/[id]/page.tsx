@@ -33,13 +33,13 @@ const getProjectData = (id: string) => {
 }
 
 interface ProjectPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
-export default function ProjectPage({ params }: ProjectPageProps) {
-  const { id } = params
+export default async function ProjectPage(props: ProjectPageProps) {
+  const { id } = await props.params
   const project = getProjectData(id)
   
   // Handle non-existent project

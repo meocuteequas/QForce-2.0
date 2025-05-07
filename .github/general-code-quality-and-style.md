@@ -19,3 +19,4 @@ description: Enforces general code quality and style guidelines across the entir
 - Use concise, one-line syntax for simple conditional statements (e.g., if (condition) doSomething()).
 - Place static content and interfaces at file end.
 - Wrap client components in Suspense with fallback.
+- Always use `date-fns` fot manipulating Javascript dates

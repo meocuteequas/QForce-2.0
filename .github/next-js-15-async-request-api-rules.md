@@ -4,13 +4,24 @@ description: Dictates how asynchronous requests should be handled within Next.js
 
 - Always use async versions of runtime APIs:
   ```typescript
-    const cookieStore = await cookies()
-    const headersList = await headers()
-    const { isEnabled } = await draftMode()
+  const cookieStore = await cookies();
+  const headersList = await headers();
+  const { isEnabled } = await draftMode();
   ```
-  
-- Handle async params in layouts/pages:
+- Handle async params in pages
+
   ```typescript
-    const params = await props.params
-    const searchParams = await props.searchParams
+  interface PageProps {
+    params: Promise<{
+      id: string;
+    }>;
+    searchParams: Promise<{
+      token: string;
+    }>;
+  }
+
+  export default async function ProjectPage(props: PageProps) {
+    const { id } = await props.params;
+    const { token } = await props.searchParams;
+  }
   ```
