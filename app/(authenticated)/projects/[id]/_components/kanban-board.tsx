@@ -6,6 +6,7 @@ import { Plus } from "lucide-react"
 import Column from "./column"
 import TaskDetailSidebar from "./task-detail-sidebar"
 import AutomationRules from "./automation-rule"
+import TableView from "./table-view"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -637,6 +638,18 @@ export default function KanbanBoard() {
     </div>
   )
 
+  // Table view content for the "table" tab
+  const renderTableViewContent = () => (
+    <div className="w-full">
+      <TableView 
+        columns={columns} 
+        onTaskClick={setSelectedTask} 
+        onAddTask={addTask}
+        onUpdateTask={updateTask}
+      />
+    </div>
+  )
+
   return (
     <div className="flex flex-col h-screen bg-slate-50 dark:bg-gray-950">
       <header className="bg-white dark:bg-gray-800 border-b dark:border-gray-700 p-6 shadow-sm min-h-full">
@@ -645,7 +658,8 @@ export default function KanbanBoard() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full max-w-md grid-cols-2">
+          <TabsList className="grid w-full max-w-md grid-cols-3">
+            <TabsTrigger value="table">Table View</TabsTrigger>
             <TabsTrigger value="board">Board</TabsTrigger>
             <TabsTrigger value="automation">Automation</TabsTrigger>
           </TabsList>
@@ -656,6 +670,10 @@ export default function KanbanBoard() {
 
           <TabsContent value="automation" className="mt-4">
             {renderAutomationContent()}
+          </TabsContent>
+
+          <TabsContent value="table" className="mt-4">
+            {renderTableViewContent()}
           </TabsContent>
         </Tabs>
       </header>

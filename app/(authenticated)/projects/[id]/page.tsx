@@ -49,13 +49,7 @@ export default async function ProjectPage(props: ProjectPageProps) {
   if (!project) {
     notFound();
   }
-
-  const formattedDate = new Date(project.createdAt).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-
+  
   return (
     <>
       <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
