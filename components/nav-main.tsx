@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/sidebar"
 import { AddTeamDialog } from "@/components/dialogs/add-team-dialog"
 import { AddProjectDialog } from "@/components/dialogs/add-project-dialog"
+import { AddFolderDialog } from "@/components/dialogs/add-folder-dialog"
 
 interface NavItem {
   title: string
@@ -44,9 +45,11 @@ export function NavMain({ items }: NavMainProps) {
   const pathname = usePathname()
   const [isAddTeamModalOpen, setIsAddTeamModalOpen] = React.useState(false)
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = React.useState(false)
+  const [isAddFolderModalOpen, setIsAddFolderModalOpen] = React.useState(false)
 
   const handleAddTeamClick = () => setIsAddTeamModalOpen(true)
   const handleAddProjectClick = () => setIsAddProjectModalOpen(true)
+  const handleAddFolderClick = () => setIsAddFolderModalOpen(true)
 
   const handleAddTeam = (teamName: string) => {
     // Handle team creation logic here
@@ -61,6 +64,12 @@ export function NavMain({ items }: NavMainProps) {
     setIsAddProjectModalOpen(false)
   }
 
+  const handleAddFolder = (folderName: string) => {
+    // Handle folder creation logic here
+    console.log(`Folder created: ${folderName}`);
+    setIsAddFolderModalOpen(false)
+  }
+
   return (
     <>
       <SidebarGroup>
@@ -71,6 +80,7 @@ export function NavMain({ items }: NavMainProps) {
             const isItemActive = pathname === item.url
             const isTeamsSection = item.title === "Teams"
             const isProjectsSection = item.title === "All Projects"
+            const isDocumentsSection = item.title === "My Documents"
             
             return hasChildItems ? (
               <Collapsible
@@ -131,6 +141,19 @@ export function NavMain({ items }: NavMainProps) {
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       )}
+
+                      {/* Add Folder option for My Documents section only */}
+                      {isDocumentsSection && (
+                        <SidebarMenuSubItem>
+                          <SidebarMenuSubButton
+                            onClick={handleAddFolderClick}
+                            className="text-sm text-muted-foreground hover:text-foreground flex items-center"
+                          >
+                            <Plus className="mr-1 size-3.5" />
+                            <span>Add Folder</span>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      )}
                     </SidebarMenuSub>
                   </CollapsibleContent>
                 </SidebarMenuItem>
@@ -166,6 +189,13 @@ export function NavMain({ items }: NavMainProps) {
         isOpen={isAddProjectModalOpen}
         onOpenChange={setIsAddProjectModalOpen}
         onAddProject={handleAddProject}
+      />
+
+      {/* Add Folder Dialog Component */}
+      <AddFolderDialog 
+        isOpen={isAddFolderModalOpen}
+        onOpenChange={setIsAddFolderModalOpen}
+        onAddFolder={handleAddFolder}
       />
     </>
   )

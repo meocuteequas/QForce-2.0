@@ -35,6 +35,12 @@ interface ProjectPageProps {
   }>
 }
 
+export const metadata = {
+  title: "Project",
+  description: "Project page",
+};
+
+
 export default async function ProjectPage(props: ProjectPageProps) {
   const { id } = await props.params
   const project = getProjectData(id)

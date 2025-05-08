@@ -69,6 +69,24 @@ const data = {
       title: "My Documents",
       url: "/documents",
       icon: FileText,
+      isActive: true,
+      items: [
+        {
+          title: "Work Documents",
+          url: "/documents/9d8c7b6a-5f4e-3d2c-1b0a-987654321cba",
+          id: "9d8c7b6a-5f4e-3d2c-1b0a-987654321cba",
+        },
+        {
+          title: "Personal Files",
+          url: "/documents/4e5f6g7h-8i9j-0k1l-2m3n-4o5p6q7r8s9t",
+          id: "4e5f6g7h-8i9j-0k1l-2m3n-4o5p6q7r8s9t",
+        },
+        {
+          title: "Project Resources",
+          url: "/documents/1a2s3d4f-5g6h-7j8k-9l0p-1q2w3e4r5t6y",
+          id: "1a2s3d4f-5g6h-7j8k-9l0p-1q2w3e4r5t6y",
+        },
+      ],
     },
     {
       title: "Teams",

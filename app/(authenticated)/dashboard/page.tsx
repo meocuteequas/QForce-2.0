@@ -7,6 +7,11 @@ import { Suspense } from "react";
 // Import the data from this folder
 import data from "./data.json";
 
+export const metadata = {
+  title: "Dashboard",
+  description: "Dashboard page",
+};
+
 export default function DashboardPage() {
   return (
     <>
