@@ -45,10 +45,10 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
   if (!user) return null;
 
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen w-screen">
+    <SidebarProvider defaultOpen={false}>
+      <div className="flex h-screen w-screen overflow-hidden">
         <AppSidebar authUser={user} className="hidden lg:block" />
-        <div className="flex-1">
+        <div className="flex-1 overflow-auto">
           <main className="flex-1 overflow-y-auto">
             <Suspense fallback={<div className="p-8">Loading content...</div>}>{children}</Suspense>
           </main>

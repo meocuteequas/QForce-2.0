@@ -5,7 +5,6 @@ import { DragDropContext, type DropResult } from "@hello-pangea/dnd"
 import { Plus } from "lucide-react"
 import Column from "./column"
 import TaskDetailSidebar from "./task-detail-sidebar"
-import AutomationRules from "./automation-rule"
 import TableView from "./table-view"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -218,7 +217,7 @@ export default function KanbanBoard() {
   const [newColumnTitle, setNewColumnTitle] = useState("")
   const [isAddingColumn, setIsAddingColumn] = useState(false)
   const [rules, setRules] = useState<Rule[]>([])
-  const [activeTab, setActiveTab] = useState("board")
+  const [activeTab, setActiveTab] = useState("table")
 
   // Initialize with default columns and mock data
   useEffect(() => {
@@ -547,27 +546,6 @@ export default function KanbanBoard() {
     })
   }
 
-  const addRule = (rule: Rule) => {
-    setRules([...rules, rule])
-    toast({
-      title: "Rule created",
-      description: `"${rule.name}" has been added`,
-    })
-  }
-
-  const updateRule = (ruleId: string, updates: Partial<Rule>) => {
-    const newRules = rules.map((rule) => (rule.id === ruleId ? { ...rule, ...updates } : rule))
-    setRules(newRules)
-  }
-
-  const deleteRule = (ruleId: string) => {
-    setRules(rules.filter((rule) => rule.id !== ruleId))
-    toast({
-      title: "Rule deleted",
-      description: "The automation rule has been deleted",
-    })
-  }
-
   // Board content for the "board" tab
   const renderBoardContent = () => (
     <DragDropContext onDragEnd={handleDragEnd}>
@@ -625,19 +603,6 @@ export default function KanbanBoard() {
     </DragDropContext>
   )
 
-  // Automation content for the "automation" tab
-  const renderAutomationContent = () => (
-    <div className="max-w-4xl mx-auto">
-      <AutomationRules
-        rules={rules}
-        columns={columns}
-        onAddRule={addRule}
-        onUpdateRule={updateRule}
-        onDeleteRule={deleteRule}
-      />
-    </div>
-  )
-
   // Table view content for the "table" tab
   const renderTableViewContent = () => (
     <div className="w-full">
@@ -651,32 +616,26 @@ export default function KanbanBoard() {
   )
 
   return (
-    <div className="flex flex-col h-screen bg-slate-50 dark:bg-gray-950">
-      <header className="bg-white dark:bg-gray-800 border-b dark:border-gray-700 p-6 shadow-sm min-h-full">
+    <div className="flex flex-col h-fit p-6">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">Kanban Board</h1>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full max-w-md grid-cols-3">
+          <TabsList className="grid w-full max-w-md grid-cols-2">
             <TabsTrigger value="table">Table View</TabsTrigger>
             <TabsTrigger value="board">Board</TabsTrigger>
-            <TabsTrigger value="automation">Automation</TabsTrigger>
           </TabsList>
 
           <TabsContent value="board" className="mt-4">
             {renderBoardContent()}
           </TabsContent>
 
-          <TabsContent value="automation" className="mt-4">
-            {renderAutomationContent()}
-          </TabsContent>
-
           <TabsContent value="table" className="mt-4">
             {renderTableViewContent()}
           </TabsContent>
         </Tabs>
-      </header>
+
 
       {selectedTask && (
         <TaskDetailSidebar
