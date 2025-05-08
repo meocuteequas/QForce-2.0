@@ -118,3 +118,18 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Grid background pattern for organization chart */
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(128, 128, 128, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(128, 128, 128, 0.05) 1px, transparent 1px);
+  background-color: transparent;
+}
+
+/* For dark mode */
+.dark .bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(200, 200, 200, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(200, 200, 200, 0.04) 1px, transparent 1px);
+}

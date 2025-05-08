@@ -9,6 +9,21 @@ const nextConfig: NextConfig = {
         destination: "/dashboard",
         permanent: true,
       },
+      {
+        source: "/projects",
+        destination: "/dashboard",
+        permanent: true,
+      },
+      {
+        source: "/teams",
+        destination: "/dashboard",
+        permanent: true,
+      },
+      {
+        source: "/documents",
+        destination: "/dashboard",
+        permanent: true,
+      }
     ];
   },
 };

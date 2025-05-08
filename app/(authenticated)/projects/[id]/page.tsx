@@ -1,5 +1,6 @@
-import { notFound } from "next/navigation"
-import { PageBreadcrumb } from "@/components/page-breadcrumb"
+import { notFound } from "next/navigation";
+import { PageBreadcrumb } from "@/components/page-breadcrumb";
+import KanbanBoard from "./_components/kanban-board";
 
 const getProjectData = (id: string) => {
   const projects = [
@@ -24,15 +25,15 @@ const getProjectData = (id: string) => {
       createdAt: "2025-03-10T09:15:00.000Z",
       status: "active",
     },
-  ]
+  ];
 
-  return projects.find(project => project.id === id)
-}
+  return projects.find((project) => project.id === id);
+};
 
 interface ProjectPageProps {
   params: Promise<{
-    id: string
-  }>
+    id: string;
+  }>;
 }
 
 export const metadata = {
@@ -40,36 +41,28 @@ export const metadata = {
   description: "Project page",
 };
 
-
 export default async function ProjectPage(props: ProjectPageProps) {
-  const { id } = await props.params
-  const project = getProjectData(id)
-  
+  const { id } = await props.params;
+  const project = getProjectData(id);
+
   // Handle non-existent project
   if (!project) {
-    notFound()
+    notFound();
   }
 
   const formattedDate = new Date(project.createdAt).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
-  })
-  
+  });
+
   return (
     <>
       <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
         <PageBreadcrumb breadcrumbData={{ id: project.id, name: project.name }} />
       </header>
-      
-      <div className="container mx-auto p-6">
-        <div className="flex flex-col gap-8">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">{project.name}</h1>
-            <p className="text-sm text-muted-foreground mt-2">Created on {formattedDate}</p>
-          </div>
-        </div>
-      </div>
+
+      <KanbanBoard />
     </>
-  )
+  );
 }
