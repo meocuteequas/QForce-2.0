@@ -48,6 +48,7 @@ const formSchema = z.object({
   dueDate: z.date().optional().nullable(),
   priority: z.string().optional(),
   assignedTo: z.string().optional(),
+  package: z.string().optional(),
 })
 
 type FormValues = z.infer<typeof formSchema>
@@ -70,6 +71,7 @@ export default function AddTaskDialog({ open, onOpenChange, onAddTask }: AddTask
       dueDate: null,
       priority: "Medium",
       assignedTo: "",
+      package: "",
     },
   })
 
@@ -94,6 +96,10 @@ export default function AddTaskDialog({ open, onOpenChange, onAddTask }: AddTask
     
     if (values.assignedTo) {
       customFields.push({ name: "Assigned To", value: values.assignedTo })
+    }
+
+    if (values.package) {
+      customFields.push({ name: "Package", value: values.package })
     }
     
     // Create new task
@@ -233,6 +239,20 @@ export default function AddTaskDialog({ open, onOpenChange, onAddTask }: AddTask
                   <FormLabel>Assigned To</FormLabel>
                   <FormControl>
                     <Input placeholder="Enter assignee name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="package"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Package</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter package name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

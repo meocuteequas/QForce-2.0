@@ -3,6 +3,7 @@
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { Avatar } from "@/components/ui/avatar";
+import { TableRow, TableCell } from "@/components/ui/table";
 import type { Task } from "../kanban";
 
 interface TasksTableProps {
@@ -13,27 +14,34 @@ interface TasksTableProps {
 
 export default function TasksTable({ tasks, onTaskClick, isActive }: TasksTableProps) {
   if (tasks.length === 0) {
-    return <div className="py-6 px-4 text-center text-muted-foreground">No tasks found</div>;
+    return null;
   }
 
   // Get assignee from custom fields
   const getAssignee = (task: Task) => {
     const assigneeField = task.customFields.find((field) => field.name === "Assigned To");
-    return assigneeField?.value || "-";
+    return assigneeField?.value || "";
   };
 
   // Get priority from custom fields
   const getPriority = (task: Task) => {
     const priorityField = task.customFields.find((field) => field.name === "Priority");
-    return priorityField?.value || "Normal";
+    return priorityField?.value || "Medium";
   };
 
-  // Function to determine priority badge color
+  // Get package from custom fields
+  const getPackage = (task: Task) => {
+    const packageField = task.customFields.find((field) => field.name === "Package");
+    return packageField?.value || "Unassigned";
+  };
+
+  // Function to determine priority badge variant
   const getPriorityBadgeVariant = (priority: string) => {
     switch (priority.toLowerCase()) {
       case "critical":
         return "destructive";
       case "high":
+        return "destructive";
       case "medium":
         return "yellow";
       case "low":
@@ -67,67 +75,83 @@ export default function TasksTable({ tasks, onTaskClick, isActive }: TasksTableP
   };
 
   return (
-    <div className="divide-y divide-border dark:divide-gray-700">
+    <>
       {tasks.map((task) => {
         const assignee = getAssignee(task);
         const priority = getPriority(task);
+        const packageName = getPackage(task);
         const dueDate = formatDueDate(task.dueDate);
         const taskIsOverdue = isOverdue(task.dueDate);
 
         return (
-          <div
+          <TableRow 
             key={task.id}
-            className="flex items-center px-4 py-3 hover:bg-muted/50 cursor-pointer"
+            className="hover:bg-muted/50 cursor-pointer"
             onClick={() => onTaskClick(task)}
           >
-            <div className="flex-1 min-w-0 mr-4">
-              <div className="text-sm font-medium">{task.title}</div>
-              {task.description && (
-                <div className="text-xs text-muted-foreground line-clamp-1 mt-0.5">{task.description}</div>
-              )}
-            </div>
-
-            <div className="flex items-center justify-end space-x-6 text-sm w-1/2">
-              <div className="w-32 md:w-44">
-                {assignee !== "-" ? (
-                  <div className="flex items-center">
-                    <Avatar className="h-6 w-6 mr-2">
-                      <div className="bg-primary/10 text-primary h-full w-full flex items-center justify-center text-xs">
-                        {assignee.charAt(0).toUpperCase()}
-                      </div>
-                    </Avatar>
-                    <span>{assignee}</span>
-                  </div>
-                ) : (
-                  <span className="text-muted-foreground">Unassigned</span>
+            <TableCell>
+              <div className="flex flex-col">
+                <span className="font-medium">{task.title}</span>
+                {task.description && (
+                  <span className="text-xs text-muted-foreground line-clamp-1">{task.description}</span>
                 )}
+                <div className="flex flex-wrap gap-1 mt-1">
+                  {task.subtasks.length > 0 && (
+                    <Badge variant="outline" className="text-xs">
+                      {task.subtasks.filter(st => st.completed).length}/{task.subtasks.length} subtasks
+                    </Badge>
+                  )}
+                </div>
               </div>
-
-              <div className="w-24 md:w-40">
-                <Badge variant="outline" className="border-[1.5px]">
-                  {task.status}
+            </TableCell>
+            
+            <TableCell>
+              {assignee ? (
+                <div className="flex items-center">
+                  <Avatar className="h-6 w-6 mr-2">
+                    <div className="bg-primary/10 text-primary h-full w-full flex items-center justify-center text-xs">
+                      {assignee.charAt(0).toUpperCase()}
+                    </div>
+                  </Avatar>
+                  <span>{assignee}</span>
+                </div>
+              ) : (
+                <span className="text-muted-foreground">Unassigned</span>
+              )}
+            </TableCell>
+            
+            <TableCell>
+              <Badge variant="outline" className="border-[1.5px]">
+                {task.status}
+              </Badge>
+            </TableCell>
+            
+            <TableCell>
+              <Badge
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                variant={getPriorityBadgeVariant(priority) as any}
+                className="font-normal"
+              >
+                {priority}
+              </Badge>
+            </TableCell>
+            
+            {/* Only show package column in Task view (not in Package view) */}
+            {packageName !== undefined && (
+              <TableCell>
+                <Badge variant="outline" className="bg-blue-50/50 dark:bg-blue-900/20">
+                  {packageName}
                 </Badge>
-              </div>
-
-              <div className="w-24 md:w-40">
-                <Badge
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                  // @ts-expect-error
-                  variant={getPriorityBadgeVariant(priority)}
-                  className="font-normal"
-                >
-                  {priority}
-                </Badge>
-              </div>
-
-              <div className={`w-32 md:w-44 ${taskIsOverdue ? "text-destructive" : ""}`}>
-                {dueDate}
-                {taskIsOverdue && <span className="ml-1">(overdue)</span>}
-              </div>
-            </div>
-          </div>
+              </TableCell>
+            )}
+            
+            <TableCell className={taskIsOverdue ? "text-destructive" : ""}>
+              {dueDate}
+              {taskIsOverdue && <span className="ml-1">(overdue)</span>}
+            </TableCell>
+          </TableRow>
         );
       })}
-    </div>
+    </>
   );
 }

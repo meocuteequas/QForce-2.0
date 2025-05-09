@@ -39,6 +39,7 @@ const generateMockTasks = (): { [key: string]: Task[] } => {
       customFields: [
         { id: `field-${generateId()}`, name: "Priority", value: "High" },
         { id: `field-${generateId()}`, name: "Estimated Hours", value: "8" },
+        { id: `field-${generateId()}`, name: "Package", value: "Market Research" },
       ],
       createdAt: createDate(-2),
     },
@@ -55,6 +56,7 @@ const generateMockTasks = (): { [key: string]: Task[] } => {
       customFields: [
         { id: `field-${generateId()}`, name: "Priority", value: "Medium" },
         { id: `field-${generateId()}`, name: "Assigned To", value: "Sarah" },
+        { id: `field-${generateId()}`, name: "Package", value: "Product Design" },
       ],
       createdAt: createDate(-1),
     },
@@ -65,7 +67,10 @@ const generateMockTasks = (): { [key: string]: Task[] } => {
       status: "To Do",
       dueDate: createDate(3),
       subtasks: [],
-      customFields: [{ id: `field-${generateId()}`, name: "Priority", value: "Low" }],
+      customFields: [
+        { id: `field-${generateId()}`, name: "Priority", value: "Low" },
+        { id: `field-${generateId()}`, name: "Package", value: "Documentation" },
+      ],
       createdAt: createDate(-3),
     },
   ]
@@ -88,6 +93,7 @@ const generateMockTasks = (): { [key: string]: Task[] } => {
         { id: `field-${generateId()}`, name: "Priority", value: "High" },
         { id: `field-${generateId()}`, name: "Assigned To", value: "Michael" },
         { id: `field-${generateId()}`, name: "Story Points", value: "8" },
+        { id: `field-${generateId()}`, name: "Package", value: "Authentication" },
       ],
       createdAt: createDate(-5),
     },
@@ -105,6 +111,7 @@ const generateMockTasks = (): { [key: string]: Task[] } => {
       customFields: [
         { id: `field-${generateId()}`, name: "Priority", value: "High" },
         { id: `field-${generateId()}`, name: "Estimated Hours", value: "6" },
+        { id: `field-${generateId()}`, name: "Package", value: "Performance" },
       ],
       createdAt: createDate(-4),
     },
@@ -126,6 +133,7 @@ const generateMockTasks = (): { [key: string]: Task[] } => {
       customFields: [
         { id: `field-${generateId()}`, name: "Priority", value: "Critical" },
         { id: `field-${generateId()}`, name: "Blocker", value: "Waiting for API documentation" },
+        { id: `field-${generateId()}`, name: "Package", value: "Payment Integration" },
       ],
       createdAt: createDate(-7),
     },
@@ -142,6 +150,7 @@ const generateMockTasks = (): { [key: string]: Task[] } => {
       customFields: [
         { id: `field-${generateId()}`, name: "Priority", value: "Medium" },
         { id: `field-${generateId()}`, name: "Blocker", value: "Waiting for API keys" },
+        { id: `field-${generateId()}`, name: "Package", value: "Third-party Integrations" },
       ],
       createdAt: createDate(-6),
     },
@@ -163,6 +172,7 @@ const generateMockTasks = (): { [key: string]: Task[] } => {
       customFields: [
         { id: `field-${generateId()}`, name: "Priority", value: "High" },
         { id: `field-${generateId()}`, name: "Completed On", value: createDate(-6).split("T")[0] },
+        { id: `field-${generateId()}`, name: "Package", value: "Project Planning" },
       ],
       createdAt: createDate(-10),
     },
@@ -180,6 +190,7 @@ const generateMockTasks = (): { [key: string]: Task[] } => {
       customFields: [
         { id: `field-${generateId()}`, name: "Priority", value: "Medium" },
         { id: `field-${generateId()}`, name: "Completed By", value: "David" },
+        { id: `field-${generateId()}`, name: "Package", value: "DevOps" },
       ],
       createdAt: createDate(-12),
     },
@@ -197,6 +208,7 @@ const generateMockTasks = (): { [key: string]: Task[] } => {
       customFields: [
         { id: `field-${generateId()}`, name: "Priority", value: "High" },
         { id: `field-${generateId()}`, name: "Participants", value: "12" },
+        { id: `field-${generateId()}`, name: "Package", value: "User Research" },
       ],
       createdAt: createDate(-20),
     },

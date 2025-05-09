@@ -22,10 +22,6 @@ const sidebarNavItems = [
     href: "/settings/notifications",
   },
   {
-    title: "Display",
-    href: "/settings/display",
-  },
-  {
     title: "Organization Chart",
     href: "/settings/organization-chart",
   },
