@@ -92,19 +92,10 @@ export default async function MemberPage({ params }: MemberPageProps) {
   
   if (!member) notFound()
   
-  const breadcrumbData = {
-    id,
-    name: member.name,
-    parentCrumbs: [
-      { name: "Teams", href: "/teams" },
-      { id, name: "Team Details", href: `/teams/${id}` }
-    ]
-  }
-  
   return (
     <>
       <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-        <PageBreadcrumb breadcrumbData={breadcrumbData} />
+        <PageBreadcrumb />
       </header>
       
       <div className="container mx-auto p-6">

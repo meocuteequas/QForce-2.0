@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { ProfileForm } from "./_components/profile-form";
+import { AccountForm } from "./_components/account-form";
 
 export default function SettingsProfilePage() {
   return (
@@ -10,7 +10,7 @@ export default function SettingsProfilePage() {
           <p className="text-sm text-muted-foreground">This is how others will see you on the site.</p>
         </div>
         <Separator />
-        <ProfileForm />
+        <AccountForm />
       </div>
     </>
   );

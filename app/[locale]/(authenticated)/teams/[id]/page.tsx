@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { PageBreadcrumb } from "@/components/page-breadcrumb";
-import { TeamMember } from "@/app/(authenticated)/teams/[id]/_components/team-member";
+import { TeamMember } from "./_components/team-member";
 
 interface TeamMember {
   id: string;
@@ -109,7 +109,7 @@ export default async function TeamPage(props: TeamPageProps) {
   return (
     <>
       <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-        <PageBreadcrumb breadcrumbData={{ id: team.id, name: team.name }} />
+        <PageBreadcrumb />
       </header>
 
       <div className="container mx-auto p-6">

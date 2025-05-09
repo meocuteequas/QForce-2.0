@@ -4,6 +4,7 @@ import { ChevronRight, Plus, type LucideIcon } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import * as React from "react"
+import { useTranslations } from "next-intl"
 
 import {
   Collapsible,
@@ -30,6 +31,7 @@ interface NavItem {
   icon?: LucideIcon
   isActive?: boolean
   id?: string
+  key?: string
   items?: {
     title: string
     url: string
@@ -43,6 +45,7 @@ interface NavMainProps {
 
 export function NavMain({ items }: NavMainProps) {
   const pathname = usePathname()
+  const t = useTranslations("navigation")
   const [isAddTeamModalOpen, setIsAddTeamModalOpen] = React.useState(false)
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = React.useState(false)
   const [isAddFolderModalOpen, setIsAddFolderModalOpen] = React.useState(false)
@@ -78,9 +81,9 @@ export function NavMain({ items }: NavMainProps) {
           {items.map((item) => {
             const hasChildItems = item.items && item.items.length > 0
             const isItemActive = pathname === item.url
-            const isTeamsSection = item.title === "Teams"
-            const isProjectsSection = item.title === "All Projects"
-            const isDocumentsSection = item.title === "My Documents"
+            const isTeamsSection = item.key === "teams"
+            const isProjectsSection = item.key === "allProjects"
+            const isDocumentsSection = item.key === "myDocuments"
             
             return hasChildItems ? (
               <Collapsible
@@ -124,7 +127,7 @@ export function NavMain({ items }: NavMainProps) {
                             className="text-sm text-muted-foreground hover:text-foreground flex items-center"
                           >
                             <Plus className="mr-1 size-3.5" />
-                            <span>Add Team</span>
+                            <span>{t("actions.addTeam")}</span>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       )}
@@ -137,7 +140,7 @@ export function NavMain({ items }: NavMainProps) {
                             className="text-sm text-muted-foreground hover:text-foreground flex items-center"
                           >
                             <Plus className="mr-1 size-3.5" />
-                            <span>Add Project</span>
+                            <span>{t("actions.addProject")}</span>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       )}
@@ -150,7 +153,7 @@ export function NavMain({ items }: NavMainProps) {
                             className="text-sm text-muted-foreground hover:text-foreground flex items-center"
                           >
                             <Plus className="mr-1 size-3.5" />
-                            <span>Add Folder</span>
+                            <span>{t("actions.addFolder")}</span>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       )}

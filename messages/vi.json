@@ -1,0 +1,33 @@
+{
+  "dashboard": {
+    "title": "Bảng điều khiển"
+  },
+  "settings": {
+    "title": "Cài đặt",
+    "account": {
+      "title": "Tài khoản",
+      "description": "Cập nhật cài đặt tài khoản của bạn. Thiết lập ngôn ngữ và múi giờ ưa thích.",
+      "language": "Ngôn ngữ",
+      "languageDescription": "Đây là ngôn ngữ sẽ được sử dụng trong bảng điều khiển.",
+      "selectLanguage": "Chọn ngôn ngữ",
+      "searchLanguage": "Tìm kiếm ngôn ngữ...",
+      "noLanguageFound": "Không tìm thấy ngôn ngữ nào.",
+      "updateAccount": "Cập nhật tài khoản",
+      "submissionValues": "Bạn đã gửi các giá trị sau:"
+    }
+  },
+  "navigation": {
+    "dashboard": "Bảng điều khiển",
+    "myWork": "Công việc của tôi",
+    "myInbox": "Hộp thư đến",
+    "myDocuments": "Tài liệu của tôi",
+    "teams": "Nhóm",
+    "allProjects": "Tất cả dự án",
+    "settings": "Cài đặt",
+    "actions": {
+      "addTeam": "Thêm nhóm",
+      "addProject": "Thêm dự án",
+      "addFolder": "Thêm thư mục"
+    }
+  }
+}

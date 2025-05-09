@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+import createNextIntlPlugin from 'next-intl/plugin';
+ 
+const nextConfig: NextConfig = {  /* config options here */
+  trailingSlash: true,
   redirects: async () => {
     return [
       {
@@ -25,7 +26,7 @@ const nextConfig: NextConfig = {
         permanent: true,
       }
     ];
-  },
-};
-
-export default nextConfig;
+  },};
+ 
+const withNextIntl = createNextIntlPlugin();
+export default withNextIntl(nextConfig);

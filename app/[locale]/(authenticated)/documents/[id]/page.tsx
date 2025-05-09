@@ -14,7 +14,7 @@ export default function DocumentPage() {
   return (
     <>
       <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-        <PageBreadcrumb breadcrumbData={{ id: "Document", name: "Documents" }} />
+        <PageBreadcrumb />
       </header>
       <div className="container mx-auto p-6">
         <div className="mb-6 flex items-center gap-4">
