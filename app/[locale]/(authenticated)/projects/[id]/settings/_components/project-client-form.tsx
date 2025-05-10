@@ -3,41 +3,33 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-const clientFormSchema = z.object({
-  name: z.string().min(1, {
-    message: "Client name is required.",
-  }),
-  company: z.string().min(1, {
-    message: "Company name is required.",
-  }),
-  email: z.string().email({
-    message: "Please enter a valid email address.",
-  }),
-  phone: z.string().optional(),
-  address: z.string().optional(),
-  notes: z.string().optional(),
-});
-
-type ClientFormValues = z.infer<typeof clientFormSchema>;
-
-
 export function ProjectClientForm() {
+  const t = useTranslations("settings.project.tabs.client");
   const { toast } = useToast();
+
+  const clientFormSchema = z.object({
+    name: z.string().min(1, {
+      message: t("form.nameError"),
+    }),
+    company: z.string().min(1, {
+      message: t("form.companyError"),
+    }),
+    email: z.string().email({
+      message: t("form.emailError"),
+    }),
+    phone: z.string().optional(),
+    address: z.string().optional(),
+    notes: z.string().optional(),
+  });
+  type ClientFormValues = z.infer<typeof clientFormSchema>;
 
   // This would fetch client data in a real app
   const defaultValues: Partial<ClientFormValues> = {
@@ -46,7 +38,7 @@ export function ProjectClientForm() {
     email: "alex.johnson@techinnovate.com",
     phone: "(555) 123-4567",
     address: "123 Business Ave, Suite 500, San Francisco, CA 94107",
-    notes: "Prefers weekly status updates via email. Main point of contact for all project decisions.",
+    notes: t("form.defaultNotes"),
   };
 
   const form = useForm<ClientFormValues>({
@@ -58,8 +50,8 @@ export function ProjectClientForm() {
     // In a real app, you'd save this data to your backend
     console.log(data);
     toast({
-      title: "Client information updated",
-      description: "The client details have been updated successfully.",
+      title: t("form.toastTitle"),
+      description: t("form.toastDescription"),
     });
   }
 
@@ -67,7 +59,7 @@ export function ProjectClientForm() {
     <div className="space-y-6">
       <div className="flex items-center space-x-4">
         <Avatar className="h-16 w-16">
-          <AvatarImage src="/placeholder.svg" alt="Client" />
+          <AvatarImage src="/placeholder.svg" alt={t("form.clientAvatarAlt")} />
           <AvatarFallback>AJ</AvatarFallback>
         </Avatar>
         <div>
@@ -75,7 +67,7 @@ export function ProjectClientForm() {
           <p className="text-sm text-muted-foreground">{form.getValues("company")}</p>
         </div>
       </div>
-      
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -84,13 +76,11 @@ export function ProjectClientForm() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Contact Name</FormLabel>
+                  <FormLabel>{t("form.contactName")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter client name" {...field} />
+                    <Input placeholder={t("form.contactNamePlaceholder")} {...field} />
                   </FormControl>
-                  <FormDescription>
-                    Primary contact person for this project.
-                  </FormDescription>
+                  <FormDescription>{t("form.contactNameDescription")}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -100,13 +90,11 @@ export function ProjectClientForm() {
               name="company"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Company</FormLabel>
+                  <FormLabel>{t("form.company")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter company name" {...field} />
+                    <Input placeholder={t("form.companyPlaceholder")} {...field} />
                   </FormControl>
-                  <FormDescription>
-                    Client company or organization name.
-                  </FormDescription>
+                  <FormDescription>{t("form.companyDescription")}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -118,13 +106,11 @@ export function ProjectClientForm() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>{t("form.email")}</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="Enter client email" {...field} />
+                    <Input type="email" placeholder={t("form.emailPlaceholder")} {...field} />
                   </FormControl>
-                  <FormDescription>
-                    Primary email address for communication.
-                  </FormDescription>
+                  <FormDescription>{t("form.emailDescription")}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -134,13 +120,11 @@ export function ProjectClientForm() {
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
+                  <FormLabel>{t("form.phone")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter client phone number" {...field} />
+                    <Input placeholder={t("form.phonePlaceholder")} {...field} />
                   </FormControl>
-                  <FormDescription>
-                    Contact phone number (optional).
-                  </FormDescription>
+                  <FormDescription>{t("form.phoneDescription")}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -151,13 +135,11 @@ export function ProjectClientForm() {
             name="address"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Address</FormLabel>
+                <FormLabel>{t("form.address")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter client address" {...field} />
+                  <Input placeholder={t("form.addressPlaceholder")} {...field} />
                 </FormControl>
-                <FormDescription>
-                  Business address (optional).
-                </FormDescription>
+                <FormDescription>{t("form.addressDescription")}</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -167,22 +149,16 @@ export function ProjectClientForm() {
             name="notes"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Notes</FormLabel>
+                <FormLabel>{t("form.notes")}</FormLabel>
                 <FormControl>
-                  <Textarea 
-                    placeholder="Additional client information" 
-                    className="resize-none min-h-[100px]"
-                    {...field} 
-                  />
+                  <Textarea placeholder={t("form.notesPlaceholder")} className="resize-none min-h-[100px]" {...field} />
                 </FormControl>
-                <FormDescription>
-                  Any important details about the client relationship.
-                </FormDescription>
+                <FormDescription>{t("form.notesDescription")}</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Save client details</Button>
+          <Button type="submit">{t("form.saveButton")}</Button>
         </form>
       </Form>
     </div>

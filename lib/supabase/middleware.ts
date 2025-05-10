@@ -32,7 +32,7 @@ export async function updateSession(request: NextRequest, supabaseResponse: Next
   } = await supabase.auth.getUser();
 
   // Check if the current path is already a login or auth path to prevent redirect loops
-  const isLoginPath = request.nextUrl.pathname.includes("/login") || request.nextUrl.pathname.includes("/auth");
+  const isLoginPath = request.nextUrl.pathname.includes("/dang-nhap") || request.nextUrl.pathname.includes("/login") || request.nextUrl.pathname.includes("/auth");
 
   if (!user && !isLoginPath) {
     // no user and not already on login page, redirect to login page with proper locale handling

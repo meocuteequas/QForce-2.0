@@ -4,15 +4,15 @@ import { useState } from "react";
 import {
   ArrowLeft,
   Archive,
-  Trash2,
+  Trash,
   Clock,
   Reply,
-  ReplyAll,
   Forward,
-  MoreHorizontal,
   Download,
-  Printer,
+  ReplyAll,
   Star,
+  Printer,
+  MoreHorizontal,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -43,6 +43,7 @@ export default function EmailDetail({ email, onClose, onArchive, onDelete, onSno
   const [showDetails, setShowDetails] = useState(false);
   const [replyOpen, setReplyOpen] = useState(false);
   const { toast } = useToast();
+  const [snoozeDate, setSnoozeDate] = useState<Date | undefined>(new Date());
 
   // Helper function to determine which badges to show
   const getBadges = () => {
@@ -69,6 +70,18 @@ export default function EmailDetail({ email, onClose, onArchive, onDelete, onSno
       title: "Reply Sent",
       description: `Your reply to ${email.sender.name} has been sent.`,
     });
+  };
+
+  // Handle message content rendering with proper line breaks
+  const renderMessageContent = () => {
+    if (!email.content) return null;
+
+    // Replace newlines with <br> tags
+    return email.content.split("\n").map((line, i) => (
+      <p key={i} className={i > 0 ? "mt-4" : ""}>
+        {line}
+      </p>
+    ));
   };
 
   return (
@@ -100,7 +113,7 @@ export default function EmailDetail({ email, onClose, onArchive, onDelete, onSno
             <Archive className="h-5 w-5" />
           </Button>
           <Button variant="ghost" size="icon" onClick={onDelete}>
-            <Trash2 className="h-5 w-5" />
+            <Trash className="h-5 w-5" />
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -130,7 +143,7 @@ export default function EmailDetail({ email, onClose, onArchive, onDelete, onSno
         <div className="p-4">
           <div className="flex justify-between items-start mb-4">
             <div className="flex items-start gap-3">
-              <AvatarWithLogo sender={email.sender} size="lg" />
+              <AvatarWithLogo sender={email.sender} />
 
               <div>
                 <div className="font-medium">{email.sender.name}</div>
@@ -169,9 +182,7 @@ export default function EmailDetail({ email, onClose, onArchive, onDelete, onSno
           </div>
 
           <div className="prose prose-sm max-w-none">
-            {email.content.split("\n\n").map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
+            {renderMessageContent()}
 
             {email.attachments && email.attachments.length > 0 && (
               <div className="mt-6">
@@ -249,12 +260,8 @@ export default function EmailDetail({ email, onClose, onArchive, onDelete, onSno
                 </div>
                 <Calendar
                   mode="single"
-                  selected={undefined}
-                  onSelect={(date) => {
-                    if (date) {
-                      onSnooze(email.id, date);
-                    }
-                  }}
+                  selected={snoozeDate}
+                  onSelect={setSnoozeDate}
                   className="mt-2"
                 />
               </div>

@@ -57,4 +57,6 @@ export interface EmailAccount {
   name: string
   email: string
   color: string
+  unread: number
+  lastUpdate: Date
 }

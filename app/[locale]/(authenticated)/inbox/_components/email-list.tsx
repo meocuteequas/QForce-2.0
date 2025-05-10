@@ -12,6 +12,7 @@ import type { Email, EmailFolder } from "../email"
 import { formatDistanceToNow } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { AvatarWithLogo } from "./avatar-with-logo"
+import { useTranslations } from "next-intl"
 
 interface EmailListProps {
   emails: Email[]
@@ -34,6 +35,7 @@ export default function EmailList({
   onDeleteEmail,
   onSnoozeEmail,
 }: EmailListProps) {
+  const t = useTranslations("inbox.list")
   const [searchQuery, setSearchQuery] = useState("")
 
   // Filter emails based on search query
@@ -48,17 +50,17 @@ export default function EmailList({
   const getFolderName = () => {
     switch (selectedFolder) {
       case "unified":
-        return "Unified Inbox"
+        return t("inboxFolder")
       case "unread":
-        return "Unread"
+        return t("unreadFolder")
       case "flagged":
-        return "Flagged"
+        return t("flaggedFolder")
       case "snoozed":
-        return "Snoozed"
+        return t("snoozedFolder")
       case "archived":
-        return "Archived"
+        return t("archivedFolder")
       case "trash":
-        return "Trash"
+        return t("trashFolder")
       default:
         return selectedFolder
     }
@@ -81,9 +83,9 @@ export default function EmailList({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>Mark all as read</DropdownMenuItem>
-              <DropdownMenuItem>Sort by date</DropdownMenuItem>
-              <DropdownMenuItem>Sort by sender</DropdownMenuItem>
+              <DropdownMenuItem>{t("markAllAsRead")}</DropdownMenuItem>
+              <DropdownMenuItem>{t("sortByDate")}</DropdownMenuItem>
+              <DropdownMenuItem>{t("sortBySender")}</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -91,7 +93,7 @@ export default function EmailList({
 
       <div className="p-2">
         <Input
-          placeholder="Search emails..."
+          placeholder={t("searchPlaceholder")}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full bg-background/80"
@@ -101,7 +103,7 @@ export default function EmailList({
       <ScrollArea className="flex-1 overflow-scroll" style={{scrollbarWidth: "none"}}>
         {filteredEmails.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
-            <p>No emails found</p>
+            <p className="text-sm">{t("noEmails")}</p>
           </div>
         ) : (
           <div className="divide-y divide-border/50">
@@ -133,6 +135,7 @@ interface EmailListItemProps {
 }
 
 function EmailListItem({ email, isSelected, onSelect, onArchive, onDelete, onSnooze }: EmailListItemProps) {
+  const t = useTranslations("inbox.list")
   const [isHovered, setIsHovered] = useState(false)
   const itemRef = useRef<HTMLDivElement>(null)
 
@@ -238,7 +241,7 @@ function EmailListItem({ email, isSelected, onSelect, onArchive, onDelete, onSno
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="end">
               <div className="p-2">
-                <div className="font-medium mb-2">Snooze until</div>
+                <div className="font-medium mb-2">{t("snoozeUntil")}</div>
                 <div className="space-y-1">
                   <Button
                     variant="ghost"
@@ -252,7 +255,7 @@ function EmailListItem({ email, isSelected, onSelect, onArchive, onDelete, onSno
                       onSnooze(email.id, tomorrow)
                     }}
                   >
-                    Tomorrow morning
+                    {t("tomorrowMorning")}
                   </Button>
                   <Button
                     variant="ghost"
@@ -266,7 +269,7 @@ function EmailListItem({ email, isSelected, onSelect, onArchive, onDelete, onSno
                       onSnooze(email.id, nextWeek)
                     }}
                   >
-                    Next week
+                    {t("nextWeek")}
                   </Button>
                 </div>
                 <Calendar

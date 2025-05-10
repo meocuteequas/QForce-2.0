@@ -1,11 +1,11 @@
-import {defineRouting} from 'next-intl/routing';
- 
+import { defineRouting } from "next-intl/routing";
+
 export const routing = defineRouting({
   // A list of all locales that are supported
-  locales: ['en', 'vi'],
+  locales: ["en", "vi"],
   localePrefix: "as-needed",
   // Used when no locale matches
-  defaultLocale: 'vi',
+  defaultLocale: "en",
   pathnames: {
     "/dashboard": {
       en: "/dashboard",
@@ -35,5 +35,9 @@ export const routing = defineRouting({
       en: "/documents/[documentId]",
       vi: "/tai-lieu/[documentId]",
     },
-  }
+    "/login": {
+      en: "/login",
+      vi: "/dang-nhap",
+    },
+  },
 });

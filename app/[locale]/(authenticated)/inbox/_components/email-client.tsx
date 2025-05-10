@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
+import { useTranslations } from "next-intl"
 import Sidebar from "./sidebar"
 import EmailList from "./email-list"
 import EmailDetail from "./email-detail"
@@ -11,6 +12,7 @@ import { useToast } from "@/hooks/use-toast"
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable"
 
 export default function EmailClient() {
+  const t = useTranslations("inbox")
   const [selectedFolder, setSelectedFolder] = useState<EmailFolder>("unified")
   const [selectedEmail, setSelectedEmail] = useState<Email | null>(null)
   const [emails, setEmails] = useState<Email[]>(mockEmails)
@@ -88,13 +90,12 @@ export default function EmailClient() {
   }
 
   // Handle sending email
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSendEmail = (email: any) => {
+  const handleSendEmail = (email: { to: string }) => {
     // In a real app, you would send the email to a server
     // For now, we'll just show a toast notification
     toast({
-      title: "Email Sent",
-      description: `Your email to ${email.to} has been sent.`,
+      title: t("emailSent"),
+      description: t("emailSentDescription", { recipient: email.to }),
     })
   }
 
@@ -180,7 +181,7 @@ export default function EmailClient() {
               />
             ) : (
               <div className="flex h-full items-center justify-center text-muted-foreground">
-                <p>Select an email to view</p>
+                <p>{t("selectEmailPrompt")}</p>
               </div>
             )}
           </ResizablePanel>

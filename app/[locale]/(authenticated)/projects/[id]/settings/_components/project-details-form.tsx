@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -26,21 +27,23 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
-const projectFormSchema = z.object({
-  name: z.string().min(2, {
-    message: "Project name must be at least 2 characters.",
-  }),
-  description: z.string().optional(),
-  startDate: z.date(),
-  dueDate: z.date().optional(),
-  budget: z.string().optional(),
-  status: z.string(),
-});
-
-type ProjectFormValues = z.infer<typeof projectFormSchema>;
-
 export function ProjectDetailsForm() {
   const { toast } = useToast();
+  const t = useTranslations("settings.project.tabs.details.form");
+
+  // Create schema with translation keys
+  const projectFormSchema = z.object({
+    name: z.string().min(2, {
+      message: t("nameError"),
+    }),
+    description: z.string().optional(),
+    startDate: z.date(),
+    dueDate: z.date().optional(),
+    budget: z.string().optional(),
+    status: z.string(),
+  });
+
+  type ProjectFormValues = z.infer<typeof projectFormSchema>;
 
   // This would fetch project data in a real app
   const defaultValues: Partial<ProjectFormValues> = {
@@ -57,12 +60,21 @@ export function ProjectDetailsForm() {
   });
 
   function onSubmit(data: ProjectFormValues) {
-    // In a real app, you'd save this data to your backend
-    console.log(data);
-    toast({
-      title: "Project updated",
-      description: "Your project details have been updated.",
-    });
+    try {
+      // In a real app, you'd save this data to your backend
+      console.log(data);
+      toast({
+        title: t("projectUpdated"),
+        description: t("projectUpdatedDescription"),
+      });
+    } catch (error) {
+      console.error("Error updating project:", error);
+      toast({
+        title: "Error",
+        description: "An error occurred while updating the project.",
+        variant: "destructive",
+      });
+    }
   }
 
   return (
@@ -73,12 +85,12 @@ export function ProjectDetailsForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Project Name</FormLabel>
+              <FormLabel>{t("name")}</FormLabel>
               <FormControl>
-                <Input placeholder="Enter project name" {...field} />
+                <Input placeholder={t("namePlaceholder")} {...field} />
               </FormControl>
               <FormDescription>
-                The name of your project as it will appear throughout the system.
+                {t("nameDescription")}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -89,16 +101,16 @@ export function ProjectDetailsForm() {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>{t("description")}</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Brief description of the project"
+                  placeholder={t("descriptionPlaceholder")}
                   className="resize-none"
                   {...field}
                 />
               </FormControl>
               <FormDescription>
-                A short description of your project&apos;s purpose and goals.
+                {t("descriptionDescription")}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -110,7 +122,7 @@ export function ProjectDetailsForm() {
             name="startDate"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Start Date</FormLabel>
+                <FormLabel>{t("startDate")}</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -124,7 +136,7 @@ export function ProjectDetailsForm() {
                         {field.value ? (
                           format(field.value, "PPP")
                         ) : (
-                          <span>Pick a date</span>
+                          <span>{t("pickDate")}</span>
                         )}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                       </Button>
@@ -140,7 +152,7 @@ export function ProjectDetailsForm() {
                   </PopoverContent>
                 </Popover>
                 <FormDescription>
-                  When the project officially begins.
+                  {t("startDateDescription")}
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -151,7 +163,7 @@ export function ProjectDetailsForm() {
             name="dueDate"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Due Date</FormLabel>
+                <FormLabel>{t("dueDate")}</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -165,7 +177,7 @@ export function ProjectDetailsForm() {
                         {field.value ? (
                           format(field.value, "PPP")
                         ) : (
-                          <span>Pick a date</span>
+                          <span>{t("pickDate")}</span>
                         )}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                       </Button>
@@ -181,7 +193,7 @@ export function ProjectDetailsForm() {
                   </PopoverContent>
                 </Popover>
                 <FormDescription>
-                  Target completion date (optional).
+                  {t("dueDateDescription")}
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -194,12 +206,12 @@ export function ProjectDetailsForm() {
             name="budget"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Budget</FormLabel>
+                <FormLabel>{t("budget")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g., 10,000" {...field} />
+                  <Input placeholder={t("budgetPlaceholder")} {...field} />
                 </FormControl>
                 <FormDescription>
-                  The allocated budget for this project (optional).
+                  {t("budgetDescription")}
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -210,26 +222,26 @@ export function ProjectDetailsForm() {
             name="status"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Status</FormLabel>
+                <FormLabel>{t("status")}</FormLabel>
                 <FormControl>
                   <select
                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     {...field}
                   >
-                    <option value="planning">Planning</option>
-                    <option value="active">Active</option>
-                    <option value="onhold">On Hold</option>
-                    <option value="completed">Completed</option>
-                    <option value="cancelled">Cancelled</option>
+                    <option value="planning">{t("statusPlanning")}</option>
+                    <option value="active">{t("statusActive")}</option>
+                    <option value="onhold">{t("statusOnHold")}</option>
+                    <option value="completed">{t("statusCompleted")}</option>
+                    <option value="cancelled">{t("statusCancelled")}</option>
                   </select>
                 </FormControl>
-                <FormDescription>Current project status.</FormDescription>
+                <FormDescription>{t("statusDescription")}</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
-        <Button type="submit">Save changes</Button>
+        <Button type="submit">{t("saveChanges")}</Button>
       </form>
     </Form>
   );

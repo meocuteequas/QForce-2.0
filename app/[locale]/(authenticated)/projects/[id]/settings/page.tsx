@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { Separator } from "@/components/ui/separator";
 import { PageBreadcrumb } from "@/components/page-breadcrumb";
-import { LanguageSwitcher } from "@/components/language-switcher";
 import ProjectSettingsForm from "./_components/project-settings-form";
 import { useTranslations } from "next-intl";
 
@@ -21,9 +20,6 @@ export default function ProjectSettingsPage() {
     <>
       <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
         <PageBreadcrumb />
-        <div className="ml-auto">
-          <LanguageSwitcher />
-        </div>
       </header>
       <div className="container mx-auto p-6 space-y-6">
         <div className="space-y-0.5">

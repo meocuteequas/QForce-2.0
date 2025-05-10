@@ -1,35 +1,22 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import {
-  Inbox,
-  Archive,
-  Clock,
-  Flag,
-  Trash2,
-  ChevronDown,
-  ChevronRight,
-  Menu,
-  X,
-  Plus,
-  Mail,
-  AlertCircle,
-  PenSquare,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
-import type { EmailAccount, EmailFolder } from "../email"
-import { useMobileV2 } from "@/hooks/use-mobile-v2"
-import ComposeEmail from "./compose-email"
+import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { formatDistanceToNow } from "@/lib/utils";
+import { Menu, Archive, Flag, Inbox, Clock, Trash, ChevronRight, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { AvatarWithLogo } from "./avatar-with-logo";
+import ComposeEmail from "./compose-email";
+import type { EmailAccount, EmailFolder } from "../email";
 
 interface SidebarProps {
-  accounts: EmailAccount[]
-  selectedFolder: EmailFolder
-  onSelectFolder: (folder: EmailFolder) => void
-  onToggleSidebar: () => void
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onSendEmail?: (email: any) => void
+  accounts: EmailAccount[];
+  selectedFolder: EmailFolder;
+  onSelectFolder: (folder: EmailFolder) => void;
+  onToggleSidebar: () => void;
+  onSendEmail: (email: { to: string; subject?: string; body?: string }) => void;
 }
 
 export default function Sidebar({
@@ -39,89 +26,115 @@ export default function Sidebar({
   onToggleSidebar,
   onSendEmail,
 }: SidebarProps) {
-  const [accountsOpen, setAccountsOpen] = useState(true)
-  const [composeOpen, setComposeOpen] = useState(false)
-  const isMobile = useMobileV2()
-
-  const folderItems = [
-    { id: "unified", label: "Unified Inbox", icon: Inbox },
-    { id: "unread", label: "Unread", icon: AlertCircle },
-    { id: "flagged", label: "Flagged", icon: Flag },
-    { id: "snoozed", label: "Snoozed", icon: Clock },
-    { id: "archived", label: "Archived", icon: Archive },
-    { id: "trash", label: "Trash", icon: Trash2 },
-  ]
+  const t = useTranslations("inbox.sidebar");
+  const [isComposeOpen, setIsComposeOpen] = useState(false);
 
   return (
-    <div className="h-full flex flex-col bg-background/60 backdrop-blur-md w-64">
-      <div className="p-4 flex items-center justify-between border-b border-border/50">
-        <h1 className="text-xl font-semibold">Mail</h1>
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={onToggleSidebar}>
-            {isMobile ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
+    <div className="flex h-full w-64 flex-col">
+      <div className="flex h-14 items-center gap-2 border-b border-border/50 p-2">
+        <Button variant="ghost" size="icon" onClick={onToggleSidebar}>
+          <Menu className="h-5 w-5" />
+          <span className="sr-only">{t("toggleSidebar")}</span>
+        </Button>
+        <div className="flex items-center gap-1">
+          <h2 className="font-semibold">{t("title")}</h2>
         </div>
       </div>
 
-      <ScrollArea className="flex-1">
-        <div className="p-2">
-          <Button variant="default" className="w-full justify-start mb-2" onClick={() => setComposeOpen(true)}>
-            <PenSquare className="mr-2 h-4 w-4" />
-            Compose
-          </Button>
+      <div className="flex flex-1 flex-col gap-2 p-2">
 
-          {/* Main folders */}
-          <div className="space-y-1 mb-4">
-            {folderItems.map((item) => {
-              const Icon = item.icon
-              return (
-                <Button
-                  key={item.id}
-                  variant={selectedFolder === item.id ? "secondary" : "ghost"}
-                  className="w-full justify-start"
-                  onClick={() => onSelectFolder(item.id as EmailFolder)}
-                >
-                  <Icon className="mr-2 h-4 w-4" />
-                  {item.label}
-                </Button>
-              )
-            })}
-          </div>
+        <Button onClick={() => setIsComposeOpen(true)}>
+          <Plus className="mr-2 h-4 w-4" />
+          {t("compose")}
+        </Button>
 
-          {/* Accounts */}
-          <Collapsible open={accountsOpen} onOpenChange={setAccountsOpen} className="mb-4">
-            <CollapsibleTrigger asChild>
-              <Button variant="ghost" className="w-full justify-between">
-                <span className="flex items-center">
-                  <Mail className="mr-2 h-4 w-4" />
-                  Accounts
-                </span>
-                {accountsOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+        <ScrollArea className="flex-1">
+          <div className="space-y-4 py-2">
+            {/* Unified folders */}
+            <div className="space-y-1 px-1">
+              <h3 className="ml-2 mb-1 text-xs font-semibold text-foreground/70">{t("mainFolders")}</h3>
+              <Button
+                variant={selectedFolder === "unified" ? "secondary" : "ghost"}
+                className="w-full justify-start"
+                onClick={() => onSelectFolder("unified")}
+              >
+                <Inbox className="mr-2 h-4 w-4" />
+                {t("inbox")}
               </Button>
-            </CollapsibleTrigger>
-            <CollapsibleContent className="pl-4 space-y-1">
+              <Button
+                variant={selectedFolder === "unread" ? "secondary" : "ghost"}
+                className="w-full justify-start"
+                onClick={() => onSelectFolder("unread")}
+              >
+                <ChevronRight className="mr-2 h-4 w-4" />
+                {t("unread")}
+                <Badge variant="secondary" className="ml-auto">
+                  12
+                </Badge>
+              </Button>
+              <Button
+                variant={selectedFolder === "flagged" ? "secondary" : "ghost"}
+                className="w-full justify-start"
+                onClick={() => onSelectFolder("flagged")}
+              >
+                <Flag className="mr-2 h-4 w-4" />
+                {t("flagged")}
+              </Button>
+              <Button
+                variant={selectedFolder === "snoozed" ? "secondary" : "ghost"}
+                className="w-full justify-start"
+                onClick={() => onSelectFolder("snoozed")}
+              >
+                <Clock className="mr-2 h-4 w-4" />
+                {t("snoozed")}
+              </Button>
+              <Button
+                variant={selectedFolder === "archived" ? "secondary" : "ghost"}
+                className="w-full justify-start"
+                onClick={() => onSelectFolder("archived")}
+              >
+                <Archive className="mr-2 h-4 w-4" />
+                {t("archived")}
+              </Button>
+              <Button
+                variant={selectedFolder === "trash" ? "secondary" : "ghost"}
+                className="w-full justify-start"
+                onClick={() => onSelectFolder("trash")}
+              >
+                <Trash className="mr-2 h-4 w-4" />
+                {t("trash")}
+              </Button>
+            </div>
+
+            {/* Accounts */}
+            <div className="space-y-1 px-1">
+              <h3 className="ml-2 mb-1 text-xs font-semibold text-foreground/70">{t("accounts")}</h3>
               {accounts.map((account) => (
                 <Button
                   key={account.id}
                   variant={selectedFolder === account.id ? "secondary" : "ghost"}
-                  className="w-full justify-start"
-                  onClick={() => onSelectFolder(account.id as EmailFolder)}
+                  className="w-full justify-start h-auto"
+                  onClick={() => onSelectFolder(account.id)}
                 >
-                  <span className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: account.color }} />
-                  {account.name}
+                  <AvatarWithLogo
+                    sender={account}
+                    className="mr-2"
+                  />
+                  <div className="flex flex-col items-start text-left">
+                    <span className="text-xs font-medium">{account.name}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {account.unread > 0 && `${account.unread} ${t("unreadEmails")}`}
+                      {account.unread === 0 && t("updated", { time: formatDistanceToNow(account.lastUpdate) })}
+                    </span>
+                  </div>
                 </Button>
               ))}
-              <Button variant="ghost" className="w-full justify-start text-muted-foreground">
-                <Plus className="mr-2 h-4 w-4" />
-                Add Account
-              </Button>
-            </CollapsibleContent>
-          </Collapsible>
-        </div>
-      </ScrollArea>
+            </div>
+          </div>
+        </ScrollArea>
+      </div>
 
-      {/* Compose Email Modal */}
-      <ComposeEmail open={composeOpen} onClose={() => setComposeOpen(false)} onSend={onSendEmail} />
+      <ComposeEmail open={isComposeOpen} onClose={() => setIsComposeOpen(false)} onSend={onSendEmail} />
     </div>
-  )
+  );
 }

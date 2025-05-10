@@ -1,10 +1,18 @@
-import { GalleryVerticalEnd } from "lucide-react"
+import { GalleryVerticalEnd } from "lucide-react";
 
-import { LoginForm } from "@/components/login-form"
-import { LanguageSwitcher } from "@/components/language-switcher"
-import Image from "next/image"
+import { LoginForm } from "@/components/login-form";
+import { LanguageSwitcher } from "@/components/language-switcher";
+import Image from "next/image";
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
+  if (data?.user) {
+    redirect("/dashboard");
+  }
+
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
@@ -33,5 +41,5 @@ export default function LoginPage() {
         />
       </div>
     </div>
-  )
+  );
 }

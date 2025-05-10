@@ -6,12 +6,16 @@ export const mockAccounts: EmailAccount[] = [
     name: "Personal",
     email: "your.email@gmail.com",
     color: "#4285F4",
+    unread: 5,
+    lastUpdate: new Date("2023-05-03T15:45:00"),
   },
   {
     id: "work",
     name: "Work",
     email: "your.name@company.com",
     color: "#EA4335",
+    unread: 0,
+    lastUpdate: new Date("2023-05-04T10:30:00"),
   },
 ]
 

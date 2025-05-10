@@ -1,41 +1,36 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { login } from "@/app/[locale]/login/action"
-import { useTranslations } from "next-intl"
-import { AlertCircle } from 'lucide-react'
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { login } from "@/app/[locale]/login/action";
+import { useTranslations } from "next-intl";
+import { AlertCircle } from "lucide-react";
+import { redirect } from "next/navigation";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"form">) {
-  const t = useTranslations("login")
-  const [error, setError] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
-  
+  const t = useTranslations("login");
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    setIsLoading(true)
-    setError(null)
-    
-    try {
-      const formData = new FormData(event.currentTarget)
-      const result = await login(formData)
-      
-      if (!result.success && result.error) {
-        setError(result.error)
-      }
-    } catch (err) {
-      console.log("Login error:", err);
-      
-      setError(t('errors.generic'))
-    } finally {
-      setIsLoading(false)
+    event.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
+    const formData = new FormData(event.currentTarget);
+    const result = await login(formData);
+
+    if (!result.success && result.error) {
+      return setError(result.error);
     }
-  }
-  
+
+    redirect("/dashboard");
+  };
+
   return (
     <form className={cn("flex flex-col gap-6", className)} onSubmit={handleSubmit} {...props}>
       <div className="flex flex-col items-center gap-2 text-center">
@@ -51,11 +46,18 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
       <div className="grid gap-6">
         <div className="grid gap-3">
           <Label htmlFor="email">{t("email")}</Label>
-          <Input id="email" name="email" type="email" placeholder={t("emailPlaceholder")} required />
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            defaultValue="tom@meocuteequas.com"
+            placeholder={t("emailPlaceholder")}
+            required
+          />
         </div>
         <div className="grid gap-3">
           <Label htmlFor="password">{t("password")}</Label>
-          <Input id="password" name="password" type="password" required />
+          <Input id="password" name="password" type="password" defaultValue="12345678" required />
         </div>
         <Button type="submit" className="w-full" disabled={isLoading}>
           {isLoading ? "Loading..." : t("loginButton")}
@@ -74,5 +76,5 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
         </Button>
       </div>
     </form>
-  )
+  );
 }

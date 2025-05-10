@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { mockAccounts } from "../mock-data"
+import { useTranslations } from "next-intl"
 
 interface ComposeEmailProps {
   open: boolean
@@ -26,12 +27,17 @@ interface ComposeEmailProps {
 }
 
 export default function ComposeEmail({ open, onClose, onSend, replyTo }: ComposeEmailProps) {
+  const t = useTranslations("inbox.compose")
   const [minimized, setMinimized] = useState(false)
   const [to, setTo] = useState(replyTo?.to || "")
   const [cc, setCc] = useState("")
   const [bcc, setBcc] = useState("")
   const [subject, setSubject] = useState(replyTo?.subject ? `Re: ${replyTo.subject}` : "")
-  const [content, setContent] = useState("")
+  const [content, setContent] = useState(
+    replyTo
+      ? `\n\n------------------\n${t("originalMessage")}\n------------------\n${replyTo.content}`
+      : ""
+  )
   const [attachments, setAttachments] = useState<File[]>([])
   const [sending, setSending] = useState(false)
   const [showCcBcc, setShowCcBcc] = useState(false)
@@ -124,7 +130,7 @@ export default function ComposeEmail({ open, onClose, onSend, replyTo }: Compose
           className="p-3 flex items-center justify-between border-b border-border cursor-pointer"
           onClick={() => setMinimized(false)}
         >
-          <h3 className="font-medium truncate">{subject || "New Message"}</h3>
+          <h3 className="font-medium truncate">{subject || t("newMessage")}</h3>
           <div className="flex items-center gap-1">
             <Button
               variant="ghost"
@@ -160,7 +166,7 @@ export default function ComposeEmail({ open, onClose, onSend, replyTo }: Compose
         <DialogContent className="sm:max-w-[700px] p-0 gap-0 max-h-[90vh] flex flex-col">
           <DialogHeader className="p-4 border-b border-border">
             <div className="flex items-center justify-between">
-              <DialogTitle>Compose Email</DialogTitle>
+              <DialogTitle>{t("composeEmail")}</DialogTitle>
               <div className="flex items-center gap-1">
                 <Button variant="ghost" size="icon" onClick={() => setMinimized(true)}>
                   <Minus className="h-4 w-4" />
@@ -177,11 +183,11 @@ export default function ComposeEmail({ open, onClose, onSend, replyTo }: Compose
               {/* From account selector */}
               <div className="flex items-center gap-2">
                 <Label htmlFor="from" className="w-16">
-                  From
+                  {t("from")}
                 </Label>
                 <Popover>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-start">
+                    <Button variant="outline" className="justify-start">
                       <div className="flex items-center gap-2">
                         <div className="h-5 w-5 rounded-full" style={{ backgroundColor: selectedAccount.color }} />
                         <span>
@@ -214,14 +220,14 @@ export default function ComposeEmail({ open, onClose, onSend, replyTo }: Compose
               {/* To field */}
               <div className="flex items-center gap-2">
                 <Label htmlFor="to" className="w-16">
-                  To
+                  {t("to")}
                 </Label>
                 <div className="flex-1 flex items-center gap-2">
                   <Input
                     id="to"
                     value={to}
                     onChange={(e) => setTo(e.target.value)}
-                    placeholder="Recipients"
+                    placeholder={t("recipients")}
                     className="flex-1"
                   />
                   <Button
@@ -231,7 +237,7 @@ export default function ComposeEmail({ open, onClose, onSend, replyTo }: Compose
                     onClick={() => setShowCcBcc(!showCcBcc)}
                     className="text-xs"
                   >
-                    {showCcBcc ? "Hide CC/BCC" : "Show CC/BCC"}
+                    {showCcBcc ? t("hideCcBcc") : t("showCcBcc")}
                   </Button>
                 </div>
               </div>
@@ -241,24 +247,24 @@ export default function ComposeEmail({ open, onClose, onSend, replyTo }: Compose
                 <>
                   <div className="flex items-center gap-2">
                     <Label htmlFor="cc" className="w-16">
-                      Cc
+                      {t("cc")}
                     </Label>
                     <Input
                       id="cc"
                       value={cc}
                       onChange={(e) => setCc(e.target.value)}
-                      placeholder="Carbon copy recipients"
+                      placeholder={t("carbonCopyRecipients")}
                     />
                   </div>
                   <div className="flex items-center gap-2">
                     <Label htmlFor="bcc" className="w-16">
-                      Bcc
+                      {t("bcc")}
                     </Label>
                     <Input
                       id="bcc"
                       value={bcc}
                       onChange={(e) => setBcc(e.target.value)}
-                      placeholder="Blind carbon copy recipients"
+                      placeholder={t("blindCarbonCopyRecipients")}
                     />
                   </div>
                 </>
@@ -266,14 +272,14 @@ export default function ComposeEmail({ open, onClose, onSend, replyTo }: Compose
 
               {/* Subject field */}
               <div className="flex items-center gap-2">
-                <Label htmlFor="subject" className="w-16">
-                  Subject
+                <Label htmlFor="subject" className="w-16 shrink-0">
+                  {t("subject")}
                 </Label>
                 <Input
                   id="subject"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  placeholder="Email subject"
+                  placeholder={t("emailSubject")}
                 />
               </div>
 
@@ -287,7 +293,7 @@ export default function ComposeEmail({ open, onClose, onSend, replyTo }: Compose
                           <Bold className="h-4 w-4" />
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent>Bold</TooltipContent>
+                      <TooltipContent>{t("bold")}</TooltipContent>
                     </Tooltip>
 
                     <Tooltip>
@@ -296,7 +302,7 @@ export default function ComposeEmail({ open, onClose, onSend, replyTo }: Compose
                           <Italic className="h-4 w-4" />
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent>Italic</TooltipContent>
+                      <TooltipContent>{t("italic")}</TooltipContent>
                     </Tooltip>
 
                     <Tooltip>
@@ -305,7 +311,7 @@ export default function ComposeEmail({ open, onClose, onSend, replyTo }: Compose
                           <List className="h-4 w-4" />
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent>Bullet List</TooltipContent>
+                      <TooltipContent>{t("bulletList")}</TooltipContent>
                     </Tooltip>
 
                     <Tooltip>
@@ -319,7 +325,7 @@ export default function ComposeEmail({ open, onClose, onSend, replyTo }: Compose
                           <ListOrdered className="h-4 w-4" />
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent>Numbered List</TooltipContent>
+                      <TooltipContent>{t("numberedList")}</TooltipContent>
                     </Tooltip>
 
                     <Tooltip>
@@ -328,7 +334,7 @@ export default function ComposeEmail({ open, onClose, onSend, replyTo }: Compose
                           <Link className="h-4 w-4" />
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent>Insert Link</TooltipContent>
+                      <TooltipContent>{t("insertLink")}</TooltipContent>
                     </Tooltip>
 
                     <Tooltip>
@@ -342,14 +348,14 @@ export default function ComposeEmail({ open, onClose, onSend, replyTo }: Compose
                           <ImageIcon className="h-4 w-4" />
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent>Insert Image</TooltipContent>
+                      <TooltipContent>{t("insertImage")}</TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
                 </div>
                 <Textarea
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  placeholder="Write your email here..."
+                  placeholder={t("writeYourEmailHere")}
                   className="border-0 rounded-none min-h-[200px] resize-none"
                 />
               </div>
@@ -357,7 +363,7 @@ export default function ComposeEmail({ open, onClose, onSend, replyTo }: Compose
               {/* Attachments */}
               {attachments.length > 0 && (
                 <div className="border rounded-md p-3">
-                  <h4 className="text-sm font-medium mb-2">Attachments</h4>
+                  <h4 className="text-sm font-medium mb-2">{t("attachments")}</h4>
                   <div className="flex flex-wrap gap-2">
                     {attachments.map((file, index) => (
                       <div key={index} className="flex items-center gap-2 bg-muted/50 rounded-md p-2 text-sm">
@@ -380,15 +386,15 @@ export default function ComposeEmail({ open, onClose, onSend, replyTo }: Compose
             <div className="p-4 border-t border-border flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Button type="submit" disabled={sending}>
-                  {sending ? "Sending..." : "Send"}
+                  {sending ? t("sending") : t("send")}
                 </Button>
                 <Button type="button" variant="outline" onClick={() => fileInputRef.current?.click()}>
                   <Paperclip className="h-4 w-4 mr-2" />
-                  Attach
+                  {t("attach")}
                 </Button>
               </div>
               <Button type="button" variant="ghost" onClick={onClose}>
-                Discard
+                {t("discard")}
               </Button>
             </div>
           </form>

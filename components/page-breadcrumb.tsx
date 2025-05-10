@@ -35,7 +35,7 @@ export function PageBreadcrumb() {
       .filter(segment => !segment.startsWith('(') && !segment.startsWith('['));
 
     segments.forEach((segment, index) => {
-      if(segment === "en") return;
+      if(segment === "en" || segment === "vi") return;
       
       const href = `/${segments.slice(0, index + 1).join('/')}`;
       const isLast = index === segments.length - 1;
