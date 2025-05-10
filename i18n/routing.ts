@@ -30,6 +30,10 @@ export const routing = defineRouting({
     "/documents/[documentId]": {
       en: "/documents/[documentId]",
       vi: "/tai-lieu/[documentId]",
+    },
+    "/login": {
+      en: "/login",
+      vi: "/dang-nhap",
     }
   }
 });
