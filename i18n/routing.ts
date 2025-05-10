@@ -19,6 +19,10 @@ export const routing = defineRouting({
       en: "/projects/[projectId]",
       vi: "/du-an/[projectId]",
     },
+    "/projects/[projectId]/settings": {
+      en: "/projects/[projectId]/settings",
+      vi: "/du-an/[projectId]/cai-dat",
+    },
     "/teams/[teamId]": {
       en: "/teams/[teamId]",
       vi: "/nhom/[teamId]",
@@ -31,9 +35,5 @@ export const routing = defineRouting({
       en: "/documents/[documentId]",
       vi: "/tai-lieu/[documentId]",
     },
-    "/login": {
-      en: "/login",
-      vi: "/dang-nhap",
-    }
   }
 });

@@ -2,6 +2,22 @@
   "dashboard": {
     "title": "Dashboard"
   },
+  "login": {
+    "title": "Login to your account",
+    "description": "Enter your email below to login to your account",
+    "email": "Email",
+    "emailPlaceholder": "m@example.com",
+    "password": "Password",
+    "loginButton": "Login",
+    "orContinueWith": "Or continue with",
+    "loginWithGitHub": "Login with GitHub",
+    "errors": {
+      "invalidCredentials": "Invalid email or password",
+      "invalidFormat": "Please check your email and password format",
+      "serverError": "Server error, please try again later",
+      "generic": "An error occurred during login"
+    }
+  },
   "settings": {
     "title": "Settings",
     "account": {
@@ -14,6 +30,87 @@
       "noLanguageFound": "No language found.",
       "updateAccount": "Update account",
       "submissionValues": "You submitted the following values:"
+    },
+    "project": {
+      "title": "Project Settings",
+      "description": "Manage project details, team members, and task packages.",
+      "tabs": {
+        "details": {
+          "title": "Project Details",
+          "heading": "Project Details",
+          "description": "Manage the basic information and settings for your project."
+        },
+        "client": {
+          "title": "Client",
+          "heading": "Client Information",
+          "description": "Manage client details and contact information for this project."
+        },
+        "team": {
+          "title": "Team",
+          "heading": "Team Members",
+          "description": "Manage team members, roles, and access permissions for this project."
+        },
+        "packages": {
+          "title": "Packages",
+          "heading": "Task Packages",
+          "description": "Manage work packages and assign teams to specific project components."
+        }
+      },
+      "packages": {
+        "title": "Task Packages",
+        "addPackage": "Add Package",
+        "noPackages": "No packages created yet. Click \"Add Package\" to create your first one.",
+        "actions": "Actions",
+        "editPackage": "Edit Package",
+        "removeTeam": "Remove Team",
+        "assignTeam": "Assign Team",
+        "deletePackage": "Delete Package",
+        "viewTasks": "View Tasks",
+        "tasks": "Tasks",
+        "taskCount": "{count} tasks",
+        "packageUpdated": "Package updated",
+        "packageUpdatedDescription": "\"{name}\" package has been updated.",
+        "packageCreated": "Package created", 
+        "packageCreatedDescription": "\"{name}\" package has been created.",
+        "cannotDelete": "Cannot delete package",
+        "cannotDeleteDescription": "This package has {count} tasks assigned to it. Please reassign or delete these tasks first.",
+        "packageDeleted": "Package deleted",
+        "packageDeletedDescription": "\"{name}\" package has been deleted.",
+        "teamAssigned": "Team assigned",
+        "teamAssignedDescription": "\"{packageName}\" has been assigned to {teamName}.",
+        "teamRemoved": "Team removed",
+        "teamRemovedDescription": "Team has been removed from this package.",
+        "templateApplied": "Template applied",
+        "templateAppliedDescription": "Added {count} packages from \"{name}\" template.",
+        "editPackageTitle": "Edit Package",
+        "createPackageTitle": "Create New Package",
+        "editPackageDescription": "Update the details of this package.",
+        "createPackageDescription": "Create a new package to group related tasks.",
+        "packageName": "Package Name",
+        "packageNamePlaceholder": "e.g., Development, Design, Testing",
+        "packageDescription": "Description",
+        "packageDescriptionPlaceholder": "Brief description of what this package includes",
+        "teamAssignmentOptional": "Team Assignment (Optional)",
+        "assignTeamPlaceholder": "Assign to a team",
+        "packageColor": "Color",
+        "packageNameRequired": "Package name required",
+        "packageNameRequiredDescription": "Please enter a name for the package.",
+        "cancel": "Cancel",
+        "updatePackage": "Update Package",
+        "createPackage": "Create Package",
+        "assignTeamTitle": "Assign Team",
+        "assignTeamDescription": "Assign a team to {packageName}",
+        "memberCount": "{count} members",
+        "fromTemplate": "From Template",
+        "addPackagesFromTemplate": "Add Packages from Template",
+        "addPackagesFromTemplateDescription": "Select a template to add multiple predefined packages to your project.",
+        "selectTemplate": "Select Template",
+        "selectTemplatePlaceholder": "Select a template",
+        "includedPackages": "Included Packages",
+        "noTemplateSelected": "No template selected",
+        "noTemplateSelectedDescription": "Please select a template to continue.",
+        "addPackagesCount": "Add {count} Packages"
+      }
     }
   },
   "navigation": {

@@ -14,14 +14,6 @@ const sidebarNavItems = [
     href: "/settings/account",
   },
   {
-    title: "Appearance",
-    href: "/settings/appearance",
-  },
-  {
-    title: "Notifications",
-    href: "/settings/notifications",
-  },
-  {
     title: "Organization Chart",
     href: "/settings/organization-chart",
   },

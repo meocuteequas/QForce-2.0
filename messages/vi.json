@@ -2,6 +2,22 @@
   "dashboard": {
     "title": "Bảng điều khiển"
   },
+  "login": {
+    "title": "Đăng nhập vào tài khoản của bạn",
+    "description": "Nhập email của bạn bên dưới để đăng nhập vào tài khoản",
+    "email": "Email",
+    "emailPlaceholder": "m@example.com",
+    "password": "Mật khẩu",
+    "loginButton": "Đăng nhập",
+    "orContinueWith": "Hoặc tiếp tục với",
+    "loginWithGitHub": "Đăng nhập với GitHub",
+    "errors": {
+      "invalidCredentials": "Email hoặc mật khẩu không hợp lệ",
+      "invalidFormat": "Vui lòng kiểm tra định dạng email và mật khẩu của bạn",
+      "serverError": "Lỗi máy chủ, vui lòng thử lại sau",
+      "generic": "Đã xảy ra lỗi khi đăng nhập"
+    }
+  },
   "settings": {
     "title": "Cài đặt",
     "account": {
@@ -14,6 +30,87 @@
       "noLanguageFound": "Không tìm thấy ngôn ngữ nào.",
       "updateAccount": "Cập nhật tài khoản",
       "submissionValues": "Bạn đã gửi các giá trị sau:"
+    },
+    "project": {
+      "title": "Cài đặt dự án",
+      "description": "Quản lý chi tiết dự án, thành viên nhóm và gói công việc.",
+      "tabs": {
+        "details": {
+          "title": "Chi tiết dự án",
+          "heading": "Chi tiết dự án",
+          "description": "Quản lý thông tin cơ bản và cài đặt cho dự án của bạn."
+        },
+        "client": {
+          "title": "Khách hàng",
+          "heading": "Thông tin khách hàng",
+          "description": "Quản lý thông tin chi tiết và liên hệ của khách hàng cho dự án này."
+        },
+        "team": {
+          "title": "Nhóm",
+          "heading": "Thành viên nhóm",
+          "description": "Quản lý thành viên nhóm, vai trò và quyền truy cập cho dự án này."
+        },
+        "packages": {
+          "title": "Gói công việc",
+          "heading": "Gói công việc",
+          "description": "Quản lý các gói công việc và phân công nhóm cho các thành phần cụ thể của dự án."
+        }
+      },
+      "packages": {
+        "title": "Gói công việc",
+        "addPackage": "Thêm gói",
+        "noPackages": "Chưa có gói nào được tạo. Nhấp vào \"Thêm gói\" để tạo gói đầu tiên của bạn.",
+        "actions": "Hành động",
+        "editPackage": "Chỉnh sửa gói",
+        "removeTeam": "Gỡ bỏ nhóm",
+        "assignTeam": "Gán nhóm",
+        "deletePackage": "Xóa gói",
+        "viewTasks": "Xem công việc",
+        "tasks": "Công việc",
+        "taskCount": "{count} công việc",
+        "packageUpdated": "Gói đã được cập nhật",
+        "packageUpdatedDescription": "Gói \"{name}\" đã được cập nhật.",
+        "packageCreated": "Gói đã được tạo", 
+        "packageCreatedDescription": "Gói \"{name}\" đã được tạo.",
+        "cannotDelete": "Không thể xóa gói",
+        "cannotDeleteDescription": "Gói này có {count} công việc được gán. Vui lòng gán lại hoặc xóa các công việc này trước.",
+        "packageDeleted": "Gói đã bị xóa",
+        "packageDeletedDescription": "Gói \"{name}\" đã bị xóa.",
+        "teamAssigned": "Đã gán nhóm",
+        "teamAssignedDescription": "\"{packageName}\" đã được gán cho {teamName}.",
+        "teamRemoved": "Đã gỡ bỏ nhóm",
+        "teamRemovedDescription": "Nhóm đã được gỡ bỏ khỏi gói này.",
+        "templateApplied": "Đã áp dụng mẫu",
+        "templateAppliedDescription": "Đã thêm {count} gói từ mẫu \"{name}\".",
+        "editPackageTitle": "Chỉnh sửa gói",
+        "createPackageTitle": "Tạo gói mới",
+        "editPackageDescription": "Cập nhật chi tiết của gói này.",
+        "createPackageDescription": "Tạo một gói mới để nhóm các công việc liên quan.",
+        "packageName": "Tên gói",
+        "packageNamePlaceholder": "ví dụ: Phát triển, Thiết kế, Kiểm thử",
+        "packageDescription": "Mô tả",
+        "packageDescriptionPlaceholder": "Mô tả ngắn gọn về những gì gói này bao gồm",
+        "teamAssignmentOptional": "Chỉ định nhóm (Tùy chọn)",
+        "assignTeamPlaceholder": "Gán cho một nhóm",
+        "packageColor": "Màu sắc",
+        "packageNameRequired": "Yêu cầu tên gói",
+        "packageNameRequiredDescription": "Vui lòng nhập tên cho gói.",
+        "cancel": "Hủy",
+        "updatePackage": "Cập nhật gói",
+        "createPackage": "Tạo gói",
+        "assignTeamTitle": "Gán nhóm",
+        "assignTeamDescription": "Gán một nhóm cho {packageName}",
+        "memberCount": "{count} thành viên",
+        "fromTemplate": "Từ mẫu",
+        "addPackagesFromTemplate": "Thêm gói từ mẫu",
+        "addPackagesFromTemplateDescription": "Chọn một mẫu để thêm nhiều gói định sẵn vào dự án của bạn.",
+        "selectTemplate": "Chọn mẫu",
+        "selectTemplatePlaceholder": "Chọn một mẫu",
+        "includedPackages": "Gói đã bao gồm",
+        "noTemplateSelected": "Chưa chọn mẫu nào",
+        "noTemplateSelectedDescription": "Vui lòng chọn một mẫu để tiếp tục.",
+        "addPackagesCount": "Thêm {count} gói"
+      }
     }
   },
   "navigation": {
