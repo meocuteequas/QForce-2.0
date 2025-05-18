@@ -14,6 +14,14 @@ const sidebarNavItems = [
     href: "/settings/account",
   },
   {
+    title: "Teams",
+    href: "/settings/teams",
+  },
+  {
+    title: "Packages",
+    href: "/settings/packages",
+  },
+  {
     title: "Organization Chart",
     href: "/settings/organization-chart",
   },

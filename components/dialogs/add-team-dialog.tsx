@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslations } from "next-intl"
 
 import {
   Dialog,
@@ -22,6 +23,7 @@ interface AddTeamDialogProps {
 
 export function AddTeamDialog({ isOpen, onOpenChange, onAddTeam }: AddTeamDialogProps) {
   const [newTeamName, setNewTeamName] = React.useState("")
+  const t = useTranslations("settings.teams")
   
   const handleAddTeam = () => {
     if (!newTeamName.trim()) return
@@ -39,20 +41,20 @@ export function AddTeamDialog({ isOpen, onOpenChange, onAddTeam }: AddTeamDialog
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add New Team</DialogTitle>
+          <DialogTitle>{t("addNewTeam", { fallback: "Add New Team" })}</DialogTitle>
           <DialogDescription>
-            Create a new team to collaborate with your colleagues.
+            {t("createTeamDescription", { fallback: "Create a new team to collaborate with your colleagues." })}
           </DialogDescription>
         </DialogHeader>
         
         <div className="py-4">
           <div className="space-y-2">
-            <Label htmlFor="team-name">Team Name</Label>
+            <Label htmlFor="team-name">{t("teamName", { fallback: "Team Name" })}</Label>
             <Input
               id="team-name"
               value={newTeamName}
               onChange={(e) => setNewTeamName(e.target.value)}
-              placeholder="Enter team name"
+              placeholder={t("enterTeamName", { fallback: "Enter team name" })}
               className="w-full"
             />
           </div>
@@ -63,10 +65,10 @@ export function AddTeamDialog({ isOpen, onOpenChange, onAddTeam }: AddTeamDialog
             variant="outline"
             onClick={handleCancel}
           >
-            Cancel
+            {t("cancel", { fallback: "Cancel" })}
           </Button>
           <Button onClick={handleAddTeam}>
-            Add Team
+            {t("addTeam", { fallback: "Add Team" })}
           </Button>
         </DialogFooter>
       </DialogContent>

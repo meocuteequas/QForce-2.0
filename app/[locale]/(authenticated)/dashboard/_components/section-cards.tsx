@@ -1,102 +1,222 @@
-import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react"
+import { ProjectsCard } from "./projects-card"
+import { DepartmentsCard } from "./departments-card"
+import { MembersCard } from "./members-card"
+import { TasksCard } from "./tasks-card"
+import { TaskLegend } from "./task-legend"
 
-import { Badge } from "@/components/ui/badge"
-import {
-  Card,
-  CardAction,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+// Types
+type Project = {
+  name: string
+  hoursCompleted: number
+  totalHours: number
+  percentCompleted: number
+}
+
+type TaskStatus = {
+  completed: number
+  inProgress: number
+  notStarted: number
+  blocked: number
+  overdue: number
+}
+
+type Department = {
+  name: string
+  memberCount: number
+  taskStatus: TaskStatus
+}
+
+type Member = {
+  name: string
+  position: string
+  tasksCount: number
+  taskStatus: TaskStatus
+}
+
+type TaskStatusCount = {
+  status: string
+  count: number
+  color: string
+}
+
+// Mock project data
+const projects: Project[] = [
+  {
+    name: "Khu công nghiệp vân canh",
+    hoursCompleted: 8,
+    totalHours: 90,
+    percentCompleted: 9,
+  },
+  {
+    name: "Trung tâm thương mại Đống Đa",
+    hoursCompleted: 45,
+    totalHours: 120,
+    percentCompleted: 38,
+  },
+  {
+    name: "Chung cư Linh Đàm",
+    hoursCompleted: 65,
+    totalHours: 200,
+    percentCompleted: 33,
+  },
+  {
+    name: "Khu đô thị Thanh Xuân",
+    hoursCompleted: 12,
+    totalHours: 80,
+    percentCompleted: 15,
+  },
+]
+
+// Mock departments data
+const departments: Department[] = [
+  {
+    name: "Engineering",
+    memberCount: 28,
+    taskStatus: {
+      completed: 45,
+      inProgress: 30,
+      notStarted: 15,
+      blocked: 5,
+      overdue: 5,
+    }
+  },
+  {
+    name: "Marketing",
+    memberCount: 12,
+    taskStatus: {
+      completed: 60,
+      inProgress: 20,
+      notStarted: 5,
+      blocked: 10,
+      overdue: 5,
+    }
+  },
+  {
+    name: "Design",
+    memberCount: 8,
+    taskStatus: {
+      completed: 70,
+      inProgress: 15,
+      notStarted: 10,
+      blocked: 0,
+      overdue: 5,
+    }
+  },
+  {
+    name: "Product Management",
+    memberCount: 6,
+    taskStatus: {
+      completed: 55,
+      inProgress: 25,
+      notStarted: 10,
+      blocked: 5,
+      overdue: 5,
+    }
+  },
+]
+
+// Mock members data
+const members: Member[] = [
+  {
+    name: "Nguyễn Văn A",
+    position: "Developer",
+    tasksCount: 12,
+    taskStatus: {
+      completed: 50,
+      inProgress: 25,
+      notStarted: 15,
+      blocked: 5,
+      overdue: 5,
+    }
+  },
+  {
+    name: "Trần Thị B",
+    position: "Designer",
+    tasksCount: 8,
+    taskStatus: {
+      completed: 75,
+      inProgress: 15,
+      notStarted: 10,
+      blocked: 0,
+      overdue: 0,
+    }
+  },
+  {
+    name: "Lê Văn C",
+    position: "Project Manager",
+    tasksCount: 15,
+    taskStatus: {
+      completed: 40,
+      inProgress: 30,
+      notStarted: 20,
+      blocked: 5,
+      overdue: 5,
+    }
+  },
+  {
+    name: "Phạm Thị D",
+    position: "Marketing",
+    tasksCount: 10,
+    taskStatus: {
+      completed: 60,
+      inProgress: 20,
+      notStarted: 10,
+      blocked: 0,
+      overdue: 10,
+    }
+  },
+]
+
+// Mock task status counts data
+const taskStatusCounts: TaskStatusCount[] = [
+  {
+    status: "Completed",
+    count: 145,
+    color: "#22c55e" // green-500
+  },
+  {
+    status: "In Progress",
+    count: 68,
+    color: "#3b82f6" // blue-500
+  },
+  {
+    status: "Not Started",
+    count: 42,
+    color: "#d1d5db" // gray-300
+  },
+  {
+    status: "Blocked",
+    count: 15,
+    color: "#ef4444" // red-500
+  },
+  {
+    status: "Overdue",
+    count: 21,
+    color: "#f59e0b" // amber-500
+  }
+]
+
+// Calculate total tasks
+const totalTasks = taskStatusCounts.reduce((total, status) => total + status.count, 0)
 
 export function SectionCards() {
   return (
-    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Total Revenue</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +12.5%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Trending up this month <IconTrendingUp className="size-4" />
-          </div>
-          <div className="text-muted-foreground">
-            Visitors for the last 6 months
-          </div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>New Customers</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1,234
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingDown />
-              -20%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Down 20% this period <IconTrendingDown className="size-4" />
-          </div>
-          <div className="text-muted-foreground">
-            Acquisition needs attention
-          </div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Active Accounts</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            45,678
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +12.5%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Strong user retention <IconTrendingUp className="size-4" />
-          </div>
-          <div className="text-muted-foreground">Engagement exceed targets</div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Growth Rate</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            4.5%
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +4.5%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Steady performance increase <IconTrendingUp className="size-4" />
-          </div>
-          <div className="text-muted-foreground">Meets growth projections</div>
-        </CardFooter>
-      </Card>
+    <div>
+      <TaskLegend taskStatusCounts={taskStatusCounts} />
+      <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card flex flex-col md:flex-row gap-2 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 overflow-x-auto">
+        <div className="w-full md:w-1/4 min-w-[200px] flex-shrink-0">
+          <ProjectsCard projects={projects} />
+        </div>
+        <div className="w-full md:w-1/4 min-w-[200px] flex-shrink-0">
+          <DepartmentsCard departments={departments} />
+        </div>
+        <div className="w-full md:w-1/4 min-w-[200px] flex-shrink-0">
+          <MembersCard members={members} />
+        </div>
+        <div className="w-full md:w-1/4 min-w-[200px] flex-shrink-0">
+          <TasksCard taskStatusCounts={taskStatusCounts} totalTasks={totalTasks} />
+        </div>
+      </div>
     </div>
   )
 }

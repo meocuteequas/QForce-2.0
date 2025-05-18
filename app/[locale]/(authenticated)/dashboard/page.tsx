@@ -1,11 +1,8 @@
-import { ChartAreaInteractive } from "./_components/chart-area-interactive";
-import { DataTable } from "./_components/data-table";
 import { SectionCards } from "./_components/section-cards";
 import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { Suspense } from "react";
 
 // Import the data from this folder
-import data from "./data.json";
 
 export const metadata = {
   title: "Dashboard",
@@ -24,16 +21,6 @@ export default function DashboardPage() {
           <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
             <Suspense fallback={<div className="p-4">Loading cards...</div>}>
               <SectionCards />
-            </Suspense>
-
-            <div className="px-4 lg:px-6">
-              <Suspense fallback={<div className="h-[300px] w-full bg-muted/20 animate-pulse rounded-lg"></div>}>
-                <ChartAreaInteractive />
-              </Suspense>
-            </div>
-
-            <Suspense fallback={<div className="p-4">Loading data table...</div>}>
-              <DataTable data={data} />
             </Suspense>
           </div>
         </div>

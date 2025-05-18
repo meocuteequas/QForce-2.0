@@ -39,26 +39,26 @@ interface PackageFormValues {
 }
 
 interface PackageFormDialogProps {
-  isOpen: boolean;
+  open: boolean;
   onOpenChange: (open: boolean) => void;
   isEditing: boolean;
   initialValues: PackageFormValues;
-  teams: Team[];
   onSubmit: (values: PackageFormValues) => void;
-  onCancel: () => void;
+  packageName?: string;
+  teams?: Team[];
 }
 
 export function PackageFormDialog({
-  isOpen,
+  open,
   onOpenChange,
   isEditing,
   initialValues,
-  teams,
+  teams = [],
   onSubmit,
-  onCancel,
+  packageName,
 }: PackageFormDialogProps) {
   const { toast } = useToast();
-  const t = useTranslations("settings.project.packages");
+  const t = useTranslations("settings.packages");
   const [formValues, setFormValues] = useState<PackageFormValues>(initialValues);
 
   // Reset form values when initialValues change
@@ -89,7 +89,7 @@ export function PackageFormDialog({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button>
           <Plus className="mr-2 h-4 w-4" /> {t("addPackage")}
@@ -98,12 +98,14 @@ export function PackageFormDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {isEditing ? t("editPackageTitle") : t("createPackageTitle")}
+            {isEditing && packageName 
+              ? t("editPackageTitle", { package: packageName, fallback: `Edit Package "${packageName}"` }) 
+              : t("createPackageTitle", { fallback: "Create Package" })}
           </DialogTitle>
           <DialogDescription>
             {isEditing
-              ? t("editPackageDescription")
-              : t("createPackageDescription")}
+              ? t("editPackageDescription", { fallback: "Edit package details." })
+              : t("createPackageDescription", { fallback: "Create a new package for your tasks." })}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -185,7 +187,7 @@ export function PackageFormDialog({
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={onCancel}>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
             {t("cancel")}
           </Button>
           <Button onClick={handleSubmit}>
